@@ -40,7 +40,12 @@ public class MyUI extends UI {
             layout.addComponent(button2);
         });
         
-        layout.addComponents(name, button);
+        Button button3 = new Button("Or ARE YOU A LOSER!");
+        button3.addClickListener(e3->{
+            layout.addComponent(new Label(name.getValue() + ", you need to work on your self-esteem."
+                                  + "You're beautiful, and still a winner"));
+             });
+        layout.addComponents(name, button, button3);
         
         setContent(layout);
     }
