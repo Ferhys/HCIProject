@@ -44,6 +44,12 @@ public class MyUI extends UI {
         button3.addClickListener(e3->{
             layout.addComponent(new Label(name.getValue() + ", you need to work on your self-esteem."
                                   + "You're beautiful, and still a winner. No matter what you do."));
+			Button button4 = new Button("For realsies??");
+			button4.addClickListener(e4 -> {
+				layout.addComponent(new Label("Maybe not. Some people are losers sometimes."));
+
+			});
+			layout.addComponent(button4);
              });
         myClass(layout);
         layout.addComponents(name, button, button3);
