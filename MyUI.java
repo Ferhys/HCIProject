@@ -32,7 +32,7 @@ public class MyUI extends UI {
 
         Button button = new Button("Are you a winner?");
         button.addClickListener( e -> {
-            layout.addComponent(new Label("yes, " + name.getValue() + ", you are a winner. In fact, you win the loterrey."));
+            layout.addComponent(new Label("yes, " + name.getValue() + ", you are a winner. In fact, you win the lottery."));
             Button button2 = new Button("How much did you win?");
             button2.addClickListener(e2 -> {
             	layout.addComponent(new Label("You won all the money in the world"));;
