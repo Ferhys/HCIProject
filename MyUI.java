@@ -53,6 +53,8 @@ public class MyUI extends UI {
 
     private void myClass(VerticalLayout layout) {
 		layout.addComponent(new Label("I love you"));
+		layout.addComponent(new Label("I still love you"));
+		
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
