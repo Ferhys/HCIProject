@@ -43,7 +43,7 @@ public class MyUI extends UI {
         Button button3 = new Button("Or ARE YOU A LOSER!");
         button3.addClickListener(e3->{
             layout.addComponent(new Label(name.getValue() + ", you need to work on your self-esteem."
-                                  + "You're beautiful, and still a winner. No matter what you do."));
+                                  + "You're baaaaeautiful, and still a winner. No matter what you do."));
              });
         layout.addComponents(name, button, button3);
 
