@@ -45,12 +45,17 @@ public class MyUI extends UI {
             layout.addComponent(new Label(name.getValue() + ", you need to work on your self-esteem."
                                   + "You're beautiful, and still a winner. No matter what you do."));
              });
+        myClass(layout);
         layout.addComponents(name, button, button3);
 
         setContent(layout);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    private void myClass(VerticalLayout layout) {
+		layout.addComponent(new Label("I love you"));
+	}
+
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
