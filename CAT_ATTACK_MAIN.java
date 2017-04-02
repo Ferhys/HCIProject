@@ -24,20 +24,22 @@ public class CAT_ATTACK_MAIN extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+        final VerticalLayout mainVL = new VerticalLayout();
+        final HorizontalLayout hl1 = new HorizontalLayout();
+        final HorizontalLayout hl2 = new HorizontalLayout();
         
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
+        final Label appName = new Label("CATattack");
+        hl1.addComponent(appName);
         
-        layout.addComponents(name, button);
+        final Label column1 = new Label("Story");
+        final Label column2 = new Label("TO DO");
+        final Label column3 = new Label("DOING");
+        final Label column4 = new Label("DONE");
+        hl2.addComponents(column1, column2, column3, column4);
         
-        setContent(layout);
+        mainVL.addComponents(hl1, hl2);
+        
+        setContent(mainVL);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
