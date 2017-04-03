@@ -31,10 +31,26 @@ public class CAT_ATTACK_MAIN extends UI {
         final Label appName = new Label("CATattack");
         hl1.addComponent(appName);
         
-        final Label column1 = new Label("Story");
-        final Label column2 = new Label("TO DO");
-        final Label column3 = new Label("DOING");
-        final Label column4 = new Label("DONE");
+               final Panel column1 = new Panel();
+        final Panel column2 = new Panel();
+        final Panel column3 = new Panel();
+        final Panel column4 = new Panel();
+        
+        final Label header1 = new Label("Story");
+        final Label header2 = new Label("TO DO");
+        final Label header3 = new Label("DOING");
+        final Label header4 = new Label("DONE");
+        
+        column1.setWidth("300px");
+        column2.setWidth("300px");
+        column3.setWidth("300px");
+        column4.setWidth("300px");
+        
+        column1.setContent(header1);
+        column2.setContent(header2);
+        column3.setContent(header3);
+        column4.setContent(header4);
+        
         hl2.addComponents(column1, column2, column3, column4);
         
         mainVL.addComponents(hl1, hl2);
