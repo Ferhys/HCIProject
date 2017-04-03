@@ -7,6 +7,8 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -52,6 +54,12 @@ public class CAT_ATTACK_MAIN extends UI {
         column4.setContent(header4);
         
         hl2.addComponents(column1, column2, column3, column4);
+        
+        final GridLayout grid1 = new GridLayout();
+       column1.setWidth(8, Unit.CM);
+       column2.setWidth(8, Unit.CM);
+       column3.setWidth(8, Unit.CM);
+       column4.setWidth(8, Unit.CM);
         
         mainVL.addComponents(hl1, hl2);
         
