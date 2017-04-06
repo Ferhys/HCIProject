@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+
+public class User {
+	public String name;
+	public String userName;
+	private String password;
+	private ArrayList<Project> projectList;
+	
+	public User() {
+		
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String pw) {
+		this.password = pw;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public void addProject(Project proj) {
+		projectList.add(proj);
+	}
+	
+	public void removeProject(Project proj) {
+		projectList.remove(proj);
+	}
+	
+	public Project getProject(int i) {
+		return projectList.get(i);
+	}
+	
+}
