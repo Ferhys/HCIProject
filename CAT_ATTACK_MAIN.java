@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -58,7 +59,7 @@ public class CAT_ATTACK_MAIN extends UI {
         final Label arrow = new Label(" > ");
         arrow.addStyleName(ValoTheme.LABEL_H3);
         
-        final Label sprintName = new Label(" SPRINT NAME");
+        final Label sprintName = new Label("SPRINT NAME");
         sprintName.addStyleName(ValoTheme.LABEL_H3);
         sprintName.setWidth("725px");
         
@@ -93,6 +94,9 @@ public class CAT_ATTACK_MAIN extends UI {
         final Label header4 = new Label("DONE");
         
         final Button plusBtn = new Button("+");
+        plusBtn.addClickListener(e -> {
+        	newStory(mainVL);
+        });
         
         column1.setWidth("300px");
         column2.setWidth("300px");
@@ -118,9 +122,55 @@ public class CAT_ATTACK_MAIN extends UI {
         mainVL.addComponents(hl1, hl2, hl3);
         
         setContent(mainVL);
+        
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    private void newStory(VerticalLayout VL) {
+		//Add a new story to the label. 
+     	Story st = new Story();
+     	st.setWidth("300px");
+    	HorizontalLayout newStory = new HorizontalLayout();
+      	Window sW = new Window();
+    	VerticalLayout subContent = new VerticalLayout();
+    	HorizontalLayout btnContent = new HorizontalLayout();
+    	subContent.setStyleName("v-align-center");
+    	btnContent.setStyleName("v-align-center");
+        sW.setContent(subContent);
+        sW.setHeight("200px");
+        sW.setWidth("400px");
+        TextField nameInput = new TextField("Enter Story Name");
+        Button addBtn = new Button("Add");
+        st.setStyleName("valo-animate-in-fade");
+        addBtn.addClickListener(e -> {
+        	
+        	st.setName(nameInput.getValue());
+        	Label blank = new Label();
+        	blank.setWidth("43px");
+        	newStory.addComponents(blank,st);
+        	VL.addComponents(newStory);
+        	sW.close();
+        });
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.addClickListener(e -> {
+        	sW.close();
+        });
+        
+        
+        // Put some components in it
+        subContent.addComponents(new Label("New Story"), nameInput, btnContent);
+        btnContent.addComponents(addBtn, cancelBtn);
+
+        // Center it in the browser window
+        sW.center();
+        
+        // Open it in the UI
+        addWindow(sW);
+
+    	
+		
+	}
+
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CAT_ATTACK_MAIN.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
