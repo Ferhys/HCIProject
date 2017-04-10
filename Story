@@ -1,8 +1,12 @@
+package scrumProject.project_CAT_ATTACK;
 import java.util.ArrayList;
 
-public class Story {
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
+
+public class Story extends Panel{
 	
-	public String name;
+	public Label name;
 	private ArrayList<Task> taskList;
 	public String description;
 	
@@ -11,11 +15,13 @@ public class Story {
 	}
 	
 	public String getName() {
-		return name;
+		return name.getCaption();
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.name = new Label(name.toUpperCase());
+		setContent(this.name);
+		setStyleName("v-align-center");
 	}
 	
 	public String getDescription() {
