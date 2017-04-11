@@ -67,6 +67,7 @@ public class CAT_ATTACK_MAIN extends UI {
         
         final Button bDButton = new Button("Burndown Chart");
         bDButton.setHeight("45px");
+        
         bDButton.addClickListener(event -> {
         	
         	Window subWindow = new Window();
@@ -96,8 +97,10 @@ public class CAT_ATTACK_MAIN extends UI {
         final Label header4 = new Label("DONE");
         
         final Button plusBtn = new Button("+");
+        plusBtn.setHeight("25px");
         plusBtn.addClickListener(e -> {
-        	newStory(gl1);
+        	Window sW = AddStory.newStory(gl1);
+        	addWindow(sW);
         });
         
         column1.setWidth("300px");
@@ -132,50 +135,6 @@ public class CAT_ATTACK_MAIN extends UI {
         setContent(mainVL);
         
     }
-
-    private void newStory(GridLayout GL) {
-		//Add a new story to the label. 
-     	Story st = new Story();
-     	st.addClickListener(e->{
-     		
-     	});
-     	st.setWidth("300px");
-      	Window sW = new Window();
-    	VerticalLayout subContent = new VerticalLayout();
-    	HorizontalLayout btnContent = new HorizontalLayout();
-    	subContent.setStyleName("v-align-center");
-    	btnContent.setStyleName("v-align-center");
-        sW.setContent(subContent);
-        sW.setHeight("200px");
-        sW.setWidth("400px");
-        TextField nameInput = new TextField("Enter Story Name");
-        Button addBtn = new Button("Add");
-        st.setStyleName("valo-animate-in-fade");
-        addBtn.addClickListener(e -> {
-        	
-        	st.setName(nameInput.getValue());
-        	GL.addComponent(st,1,1);
-        	sW.close();
-        });
-        Button cancelBtn = new Button("Cancel");
-        cancelBtn.addClickListener(e -> {
-        	sW.close();
-        });
-        
-        
-        // Put some components in it
-        subContent.addComponents(new Label("New Story"), nameInput, btnContent);
-        btnContent.addComponents(addBtn, cancelBtn);
-
-        // Center it in the browser window
-        sW.center();
-        
-        // Open it in the UI
-        addWindow(sW);
-
-    	
-		
-	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CAT_ATTACK_MAIN.class, productionMode = false)
