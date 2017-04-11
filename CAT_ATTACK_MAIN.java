@@ -8,6 +8,7 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -34,6 +35,7 @@ public class CAT_ATTACK_MAIN extends UI {
         final HorizontalLayout hl1 = new HorizontalLayout();
         final HorizontalLayout hl2 = new HorizontalLayout();
         final HorizontalLayout hl3 = new HorizontalLayout();
+        final GridLayout gl1 = new GridLayout(10,10);
         
         // Stuff going in the first horizontal layout. 
         final Label appName = new Label("CATattack");
@@ -95,7 +97,7 @@ public class CAT_ATTACK_MAIN extends UI {
         
         final Button plusBtn = new Button("+");
         plusBtn.addClickListener(e -> {
-        	newStory(mainVL);
+        	newStory(gl1);
         });
         
         column1.setWidth("300px");
@@ -113,11 +115,17 @@ public class CAT_ATTACK_MAIN extends UI {
         column3.setStyleName("v-align-center");
         column4.setStyleName("v-align-center");
         
+        gl1.addComponent(plusBtn);
+        gl1.addComponent(column1);
+        gl1.addComponent(column2);
+        gl1.addComponent(column3);
+        gl1.addComponent(column4);
         
         
         hl1.addComponents(appName, user, acc, logOut);
         hl2.addComponents(project, arrow, sprintName, bDButton);
-        hl3.addComponents(plusBtn, column1, column2, column3, column4);
+        hl3.addComponent(gl1);
+     
         
         mainVL.addComponents(hl1, hl2, hl3);
         
@@ -125,11 +133,13 @@ public class CAT_ATTACK_MAIN extends UI {
         
     }
 
-    private void newStory(VerticalLayout VL) {
+    private void newStory(GridLayout GL) {
 		//Add a new story to the label. 
      	Story st = new Story();
+     	st.addClickListener(e->{
+     		
+     	});
      	st.setWidth("300px");
-    	HorizontalLayout newStory = new HorizontalLayout();
       	Window sW = new Window();
     	VerticalLayout subContent = new VerticalLayout();
     	HorizontalLayout btnContent = new HorizontalLayout();
@@ -144,10 +154,7 @@ public class CAT_ATTACK_MAIN extends UI {
         addBtn.addClickListener(e -> {
         	
         	st.setName(nameInput.getValue());
-        	Label blank = new Label();
-        	blank.setWidth("43px");
-        	newStory.addComponents(blank,st);
-        	VL.addComponents(newStory);
+        	GL.addComponent(st,1,1);
         	sW.close();
         });
         Button cancelBtn = new Button("Cancel");
