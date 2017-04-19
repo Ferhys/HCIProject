@@ -1,0 +1,41 @@
+package projectNav;
+
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+
+import kanban.KanbanView;
+
+public class ProjectNavigatorView extends VerticalLayout implements View {
+
+	public static final String VIEW_NAME = "projectNavigatorView";
+	private final Navigator navigator;
+	
+	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView) {
+		this.navigator = navigator;
+		Label label = new Label("This is the Project Navigator.");
+		Button next = new Button("Go to Kanban Board");
+		next.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				navigator.navigateTo(kanbanView.VIEW_NAME);
+			}
+		});
+		addComponents(label, next);
+	}
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void authenticate() {
+		navigator.navigateTo("loginView");
+	}
+
+}
