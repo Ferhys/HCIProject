@@ -10,8 +10,10 @@ import com.vaadin.ui.Window;
 
 public class AddStory {
 	
-Panel panel = new Panel();
-
+	static Window newStory(GridLayout GL) {
+	//Add a new story to the label. 
+	
+     	Panel panel = new Panel();
      	panel.addClickListener(e->{
      		//If you click on the story, should cause the storie's tasks to show. 
      		
