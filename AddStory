@@ -10,15 +10,14 @@ import com.vaadin.ui.Window;
 
 public class AddStory {
 	
-	
-	static Window newStory(GridLayout GL) {
-		//Add a new story to the label. 
-     	Story st = new Story();
-     	st.addClickListener(e->{
+Panel panel = new Panel();
+
+     	panel.addClickListener(e->{
      		//If you click on the story, should cause the storie's tasks to show. 
      		
      	});
-     	st.setWidth("300px");
+     	panel.setWidth("300px");
+     	
       	Window sW = new Window();
     	VerticalLayout subContent = new VerticalLayout();
     	HorizontalLayout btnContent = new HorizontalLayout();
@@ -30,17 +29,17 @@ public class AddStory {
         TextField nameInput = new TextField("Enter Story Name");
         nameInput.focus();
         Button addBtn = new Button("Add");
-        st.setStyleName("valo-animate-in-fade");
+        panel.setStyleName("valo-animate-in-fade");
         addBtn.addClickListener(e -> {
-        	st.setName(nameInput.getValue());
-        	st.setStyleName("v-align-center");
+        	//st.setName(nameInput.getValue());
+        	panel.setStyleName("v-align-center");
         	Label lbl = new Label(nameInput.getValue());
         	HorizontalLayout stLayout = new HorizontalLayout();
         	Button addTask = new Button("+");
         	addTask.setHeight("25px");
         	stLayout.addComponents(addTask, lbl);
-        	st.setContent(stLayout);
-        	GL.addComponent(st,1,1);
+        	panel.setContent(stLayout);
+        	GL.addComponent(panel,1,1);
         	sW.close();
         });
         Button cancelBtn = new Button("Cancel");
@@ -57,11 +56,6 @@ public class AddStory {
         sW.center();
         
         // Open it in the UI
-       	return sW;
-
-    	
-		
+       	return sW;	
 	}
-	
-	
 }
