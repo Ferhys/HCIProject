@@ -54,4 +54,8 @@ public class Project {
 		this.startDate = date;
 	}
 	
+		public LocalDate getStartDate(LocalDate localDate) {
+		return startDate;
+	}
+	
 }
