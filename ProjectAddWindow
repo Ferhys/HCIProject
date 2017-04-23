@@ -22,6 +22,7 @@ public class ProjectAddWindow extends Window {
 	public ProjectAddWindow() {
 		VerticalLayout mainVL = new VerticalLayout();
 		projectName = new TextField("Project Name: ");
+		projectName.focus();
 		startDate = new DateField();
 		startDate.setValue(LocalDate.now());
 		description = new TextField("Project Description: ");
