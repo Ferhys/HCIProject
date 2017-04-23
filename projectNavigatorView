@@ -8,6 +8,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -21,9 +22,12 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "projectNavigatorView";
 	private final Navigator navigator;
+	private int row; 
 	
 	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User user) {
 		this.navigator = navigator;
+		row = 1;
+		
 		Label label = new Label("This is the Project Navigator.");
 		Button next = new Button("Go to Kanban Board");
 		next.addClickListener(new ClickListener() {
@@ -33,22 +37,18 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			}
 		});
 
+		//remember, gridlayout is supposed to be in xy coordinates
+		final GridLayout gl = new GridLayout(3,10);
 		
 		final HorizontalLayout mainHL = new HorizontalLayout();
-		final VerticalLayout h1 = new VerticalLayout();
+		
+		final HorizontalLayout h1 = new HorizontalLayout();
 		final VerticalLayout h2 = new VerticalLayout();
 		final VerticalLayout h3 = new VerticalLayout();
 		final Panel pProject = new Panel("PROJECTS");
 		final Panel pSprint = new Panel("SPRINTS");
 		final Panel pTask = new Panel("STORIES");
-		h1.addComponent(pProject);
-		h2.addComponent(pSprint);
-		h3.addComponent(pTask);
 		
-		h1.setWidth("400px");
-		h2.setWidth("400px");
-		h3.setWidth("400px");
-
 		ProjectAddWindow subWindow = new ProjectAddWindow();
 		final Button addProject = new Button("+");
 		addProject.addClickListener(e-> {
@@ -57,18 +57,34 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		});
 		
 		subWindow.addCloseListener(e -> {
-			user.addProject(subWindow.getProject());
-			//Notification.show(subWindow.getProject().getName());
-			label.setCaption("GOT IT");
-			Notification.show(user.getName() + " now has a project called " + user.getLastProject().getName());
-
+			if (subWindow.getProject().getName() != null) {
+				user.addProject(subWindow.getProject());
+				Notification.show(user.getLastProject().getName());
+				//now, add label
+				ProjectPanel pl = new ProjectPanel(user.getLastProject());
+				subWindow.reset();
+				gl.addComponent(pl, 0, row);
+				row++;
+			}
+			
 		});
 		
+		h1.addComponents(addProject, pProject);
+		h2.addComponent(pSprint);
+		h3.addComponent(pTask);
 		
-		mainHL.addComponents(addProject, h1, h2, h3);
-		mainHL.setComponentAlignment(addProject, Alignment.MIDDLE_CENTER);
-		mainHL.setComponentAlignment(h1, Alignment.MIDDLE_CENTER);
-		addComponents(label, next, mainHL);
+		h1.setMargin(false);
+		h2.setMargin(false);
+		h3.setMargin(false);
+		
+		h1.setWidth("400px");
+		h2.setWidth("400px");
+		h3.setWidth("400px");
+
+		gl.addComponents(h1, h2, h3);
+		gl.setMargin(false);
+	
+		addComponents(label, next, gl);
 	}
 	
 	
