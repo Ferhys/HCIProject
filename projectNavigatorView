@@ -40,8 +40,6 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		//remember, gridlayout is supposed to be in xy coordinates
 		final GridLayout gl = new GridLayout(3,10);
 		
-		final HorizontalLayout mainHL = new HorizontalLayout();
-		
 		final HorizontalLayout h1 = new HorizontalLayout();
 		final VerticalLayout h2 = new VerticalLayout();
 		final VerticalLayout h3 = new VerticalLayout();
