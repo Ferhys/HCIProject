@@ -7,7 +7,7 @@ public class User {
 	private ArrayList<Project> projectList;
 	
 	public User() {
-		
+		projectList = new ArrayList<Project>();
 	}
 	
 	public String getName() {
