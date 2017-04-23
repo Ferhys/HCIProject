@@ -46,4 +46,7 @@ public class User {
 		return projectList.get(i);
 	}
 	
+		public Project getLastProject() {
+		return projectList.get(projectList.size()-1);
+	}
 }
