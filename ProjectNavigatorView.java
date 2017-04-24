@@ -25,6 +25,8 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 	@SuppressWarnings("deprecation")
 	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User user) {
 		this.navigator = navigator;
+		this.user = user;
+		projectList = new ArrayList<String>();
 		row = 1;
 		
 		Label label = new Label("This is the Project Navigator.");
@@ -46,6 +48,9 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		final Panel pSprint = new Panel("SPRINTS");
 		final Panel pTask = new Panel("STORIES");
 		
+		/**
+		 * add a project
+		 */
 		ProjectAddWindow projectWindow = new ProjectAddWindow();
 		final Button addProject = new Button("+");
 		addProject.addClickListener(e-> {
@@ -56,16 +61,25 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		projectWindow.addCloseListener(e -> {
 			if (projectWindow.getProject().getName() != null) {
 				user.addProject(projectWindow.getProject());
-				Notification.show(user.getLastProject().getName());
-				//now, add label
+				//now, add label for project and for future sprints
 				ProjectPanel pl = new ProjectPanel(user.getLastProject());
+				VerticalLayout vl = new VerticalLayout();
+				vl.setMargin(false);
+				projectList.add(user.getLastProject().getName());
 				projectWindow.reset();
 				gl.addComponent(pl, 0, row);
+				gl.addComponent(vl, 1, row);
+				gl.setComponentAlignment(pl, Alignment.TOP_CENTER);
+				gl.setComponentAlignment(vl, Alignment.TOP_CENTER);
 				row++;
+
 			}	
 		});
 		
-		SprintAddWindow sprintWindow = new SprintAddWindow(user.getProjectList());
+		/**
+		 * add sprints to project
+		 */
+		SprintAddWindow sprintWindow = new SprintAddWindow(projectList);
 		final Button addSprint = new Button("+");
 		addSprint.addClickListener(e -> {
 			sprintWindow.center();
@@ -74,9 +88,13 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		
 		sprintWindow.addCloseListener(e -> {
 			if(sprintWindow.getSprint().getName() != null){
-				label.setCaption("GOT DA SPRINT");
-				user.getProject(sprintWindow.returnProjectIndex()).addSprint(sprintWindow.getSprint());;
-				Notification.show(user.getName() + " now has a project called " + user.getLastProject().getName());
+				int index = sprintWindow.returnProjectIndex();
+				//user.getProject(index).addSprint(sprintWindow.getSprint());;
+				//now, add sprint panel
+				SprintPanel sp = new SprintPanel(sprintWindow.getSprint());
+				((VerticalLayout) gl.getComponent(1, index+1)).addComponent(sp);
+			//	gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
+				sprintWindow.reset();
 			}
 		});
 		
@@ -96,7 +114,8 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		h3.setWidth("400px");
 
 		gl.addComponents(h1, h2, h3);
-		gl.setMargin(false);
+		//gl.setMargin(false);
+		gl.setSpacing(true);
 	
 		addComponents(label, next, gl);
 	}
