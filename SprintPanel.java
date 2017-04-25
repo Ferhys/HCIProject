@@ -9,22 +9,10 @@ import com.vaadin.ui.themes.ValoTheme;
 import model.Project;
 import model.Sprint;
 
-public class SprintPanel extends Panel {
+public class SprintPanel extends VerticalLayout {
 	
-	public SprintPanel(Sprint sprint) {
+	public SprintPanel(Project project) {
 		
-		HorizontalLayout hl = new HorizontalLayout(); 
-		Label name = new Label(sprint.getName());
-		name.setStyleName(ValoTheme.LABEL_BOLD);
-		Label startDate = new Label("Start date: " + sprint.getStartDate().toString());
-	//	Label endDate =   new Label("End date:   " + sprint.getEndDate().toString());
-		startDate.setStyleName(ValoTheme.LABEL_LIGHT);
-		hl.addComponents(name);
-		hl.setSpacing(true);
-		setContent(hl);
-		this.addStyleName(ValoTheme.PANEL_WELL);
-		
-		/*
 		for (Sprint sprint:project.getSprintList()) {
 			Panel panel = new Panel();
 			HorizontalLayout hl = new HorizontalLayout();
@@ -39,10 +27,10 @@ public class SprintPanel extends Panel {
 			panel.addStyleName(ValoTheme.PANEL_WELL);
 			addComponent(panel);
 		}
-
-		//setSpacing(true);
-		//setMargin(false);
-		 * */
+		
+		setSpacing(true);
+		setMargin(false);
+		 
 		 
 		
 	}
