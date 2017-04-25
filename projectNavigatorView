@@ -1,5 +1,6 @@
 package projectNav;
 
+
 import java.util.ArrayList;
 
 import com.vaadin.navigator.Navigator;
@@ -103,27 +104,14 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				user.getProject(index).addSprint(sprintWindow.getSprint());;
 				
 				//now, add sprint panel
-				SprintPanel sp = new SprintPanel(user.getProject(index).getLastSprint());
-			//	gl.removeComponent(SPRINT_COLUMN, index+1);
-				gl.insertRow(index+2);
-				gl.addComponent(sp, SPRINT_COLUMN, index+1);
+				SprintPanel sp = new SprintPanel(user.getProject(index));
+
+				gl.replaceComponent(gl.getComponent(SPRINT_COLUMN, index+1), sp);
 				gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
-			//	gl.setComponentAlignment(gl.getComponent(PROJECT_COLUMN, index+1), Alignment.TOP_RIGHT);
 				sprintWindow.reset();
 			}
 		});
 		
-		/**
-		 * FIGURE IT OUT.
-		 */
-		TextField getProject = new TextField("Choose index");
-		Label proj = new Label();
-		Button enter = new Button("Find project.");
-		enter.addClickListener(e -> {
-			int index = Integer.parseInt(getProject.getValue());
-			proj.setValue("Project: " + user.getProject(index).getName());
-			//proj.setValue("Project: " + user.getLastProject().getName());
-		});
 		
 		h1.addComponents(addProject, pProject);
 		h2.addComponents(addSprint, pSprint);
@@ -144,7 +132,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		//gl.setMargin(false);
 		gl.setSpacing(true);
 	
-		addComponents(getProject, proj, enter, label, next, gl);
+		addComponents(label, next, gl);
 	}
 	
 	
