@@ -2,76 +2,80 @@ package projectNav;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import model.Project;
 import model.Sprint;
 
 public class SprintAddWindow extends Window{
-	Sprint s; 
+	
 	final TextField sprintName;
+	final TextField description;
 	final DateField startDate;
 	final DateField endDate;
-	final ComboBox<Project> combo;
-	int temp;
+	final ComboBox<String> combo;
+	final ArrayList<String> projectNames;
+	int index;
 	
-	public SprintAddWindow(ArrayList<Project> projectList){
+	public SprintAddWindow(ArrayList<String> projectNames) {
+		this.projectNames = projectNames;
+		
 		VerticalLayout mainVL = new VerticalLayout();
+		
 		sprintName = new TextField("Sprint Name: ");
-		startDate = new DateField();
-		endDate = new DateField();
+		startDate = new DateField("Start Date: ");
+		endDate = new DateField("End Date: ");
+		description = new TextField("Sprint description: ");
 		startDate.setValue(LocalDate.now());
+		combo = new ComboBox<String>("Parent Project: ");
+		combo.setItems(projectNames);
 		
-//		if (projectList.size() > 0) {
-//			Label test = new Label(projectList.get(0).getName());
-//		}
-		
-		s = new Sprint();
 		Button enter = new Button("Add Sprint");
 		
-		combo = new ComboBox<Project>();
-		List projects = projectList;
-//		List projectNames = new ArrayList<String>();
-//		for (Project p : projectList) {
-//			projectNames.add(p.getName());
-//		}
-		combo.setItems(projects);
-		combo.setItemCaptionGenerator(Project::getName);
-		
 		enter.addClickListener(e-> {
-			s.setName(sprintName.getValue());
-			s.setStartDate(startDate.getValue());
-			s.setEndDate(endDate.getValue());
-			/*
-			for(int i = 0; i < projectList.size(); i++){
-				if(combo.getValue().getName() == projectList.get(i).getName()){
-					temp = i;
-				}
-			}
-			*/
-			
-			
+			index = projectNames.indexOf(combo.getValue());
 			close();
 		});
 		
-		mainVL.addComponents(sprintName, startDate, endDate, combo, enter, test);
+		mainVL.addComponents(sprintName, startDate, endDate, combo, description, enter);
 		setContent(mainVL);
 	}
 	
 	public Sprint getSprint(){
+		Sprint s = new Sprint();
+		
+		Binder<Sprint> binder = new Binder<>();
+		binder.bind(sprintName, Sprint::getName, Sprint::setName);
+		binder.bind(description, Sprint::getDescription, Sprint::setDescription);
+		binder.bind(startDate, Sprint::getStartDate, Sprint::setStartDate);
+		binder.bind(endDate, Sprint::getEndDate, Sprint::setEndDate);
+		
+		try {
+			binder.writeBean(s);
+		}
+		catch (ValidationException e) {
+			Notification.show("ERROR WRITING SPRINT");
+		}
+		
 		return s;
 	}
 	
 	public int returnProjectIndex(){
-		return temp;
+		return index;
+	}
+	
+	public void reset() {
+		sprintName.setValue("");
+		description.setValue("");
+		startDate.setValue(LocalDate.now());	
 	}
 
 }
