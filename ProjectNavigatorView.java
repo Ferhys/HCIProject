@@ -1,8 +1,11 @@
 package projectNav;
 
+import java.util.ArrayList;
+
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -11,23 +14,28 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import kanban.KanbanView;
+import model.Project;
 import scrumProject.project_CAT_ATTACK.User;
 
 public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "projectNavigatorView";
+	private static final int PROJECT_COLUMN = 0;
+	private static final int SPRINT_COLUMN = 1;
 	private final Navigator navigator;
-	private int row; 
 	
-	@SuppressWarnings("deprecation")
-	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User user) {
+	private final User user;
+	private ArrayList<String> projectList;
+
+	
+	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User u) {
 		this.navigator = navigator;
-		this.user = user;
-		projectList = new ArrayList<String>();
-		row = 1;
+		this.user = u;
+		this.projectList = new ArrayList<String>();
 		
 		Label label = new Label("This is the Project Navigator.");
 		Button next = new Button("Go to Kanban Board");
@@ -44,35 +52,38 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		final HorizontalLayout h1 = new HorizontalLayout();
 		final HorizontalLayout h2 = new HorizontalLayout();
 		final VerticalLayout h3 = new VerticalLayout();
+		
 		final Panel pProject = new Panel("PROJECTS");
 		final Panel pSprint = new Panel("SPRINTS");
 		final Panel pTask = new Panel("STORIES");
+		
+		final Button addProject = new Button("+");
+		final Button addSprint = new Button("+");
 		
 		/**
 		 * add a project
 		 */
 		ProjectAddWindow projectWindow = new ProjectAddWindow();
-		final Button addProject = new Button("+");
+
 		addProject.addClickListener(e-> {
 			projectWindow.center();
 			getUI().addWindow(projectWindow);
 		});
 		
 		projectWindow.addCloseListener(e -> {
-			if (projectWindow.getProject().getName() != null) {
+			if (projectWindow.getProject().getName() != "") {
 				user.addProject(projectWindow.getProject());
-				//now, add label for project and for future sprints
+				//now, add panel for Project and future sprints in a VerticalLayout
 				ProjectPanel pl = new ProjectPanel(user.getLastProject());
-				VerticalLayout vl = new VerticalLayout();
-				vl.setMargin(false);
+				VerticalLayout dummyLayout = new VerticalLayout();
 				projectList.add(user.getLastProject().getName());
 				projectWindow.reset();
-				gl.addComponent(pl, 0, row);
-				gl.addComponent(vl, 1, row);
+				
+				gl.addComponent(pl, PROJECT_COLUMN, user.getProjectList().size());
+				gl.addComponent(dummyLayout, SPRINT_COLUMN, user.getProjectList().size());
 				gl.setComponentAlignment(pl, Alignment.TOP_CENTER);
-				gl.setComponentAlignment(vl, Alignment.TOP_CENTER);
-				row++;
-
+				
+				addSprint.setEnabled(true);
 			}	
 		});
 		
@@ -80,23 +91,26 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		 * add sprints to project
 		 */
 		SprintAddWindow sprintWindow = new SprintAddWindow(projectList);
-		final Button addSprint = new Button("+");
+		addSprint.setEnabled(false);
 		addSprint.addClickListener(e -> {
 			sprintWindow.center();
 			getUI().addWindow(sprintWindow);
 		});
 		
 		sprintWindow.addCloseListener(e -> {
-			if(sprintWindow.getSprint().getName() != null){
+			if(sprintWindow.getSprint().getName() != ""){
 				int index = sprintWindow.returnProjectIndex();
-				//user.getProject(index).addSprint(sprintWindow.getSprint());;
+				user.getProject(index).addSprint(sprintWindow.getSprint());;
+				
 				//now, add sprint panel
-				SprintPanel sp = new SprintPanel(sprintWindow.getSprint());
-				((VerticalLayout) gl.getComponent(1, index+1)).addComponent(sp);
-			//	gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
+				SprintPanel sp = new SprintPanel(user.getProject(index));
+
+				gl.replaceComponent(gl.getComponent(SPRINT_COLUMN, index+1), sp);
+				gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
 				sprintWindow.reset();
 			}
 		});
+		
 		
 		h1.addComponents(addProject, pProject);
 		h2.addComponents(addSprint, pSprint);
@@ -133,3 +147,4 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	
 }
+
