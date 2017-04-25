@@ -24,15 +24,33 @@ public class KanbanView extends VerticalLayout implements View {
 	public static final String VIEW_NAME = "kanbanView";
 	private ProjectNavigatorView projNavView; 
 	private Sprint sprint;
+	private Navigator nav;
 	
 	public KanbanView(Navigator navigator) {
+		this.nav = navigator;
+		
+		sprint = new Sprint();
+	}
 	
-		Label label = new Label("KANBAN VIEW DUDES");
+	public void setProjNavView(ProjectNavigatorView projNavView) {
+		this.projNavView = projNavView;
+	}
+	
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
+	}
+	
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		this.removeAllComponents();
+
+		Label label = new Label("SPRINT IS: " + sprint.getName());
 		Button back = new Button("Back to Project Navigator");
 		back.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				navigator.navigateTo(projNavView.VIEW_NAME);
+				nav.navigateTo(projNavView.VIEW_NAME);
 			}
 		});
 		addComponents(label, back);
@@ -73,7 +91,7 @@ public class KanbanView extends VerticalLayout implements View {
         final Button bDButton = new Button("Burndown Chart");
         bDButton.setHeight("45px");
         
-        bDButton.addClickListener(event -> {
+        bDButton.addClickListener(e -> {
         	
         	Window subWindow = new Window();
         	VerticalLayout subContent = new VerticalLayout();
@@ -141,21 +159,6 @@ public class KanbanView extends VerticalLayout implements View {
         
         mainVL.addComponents(hl1, hl2, hl3);
         addComponent(mainVL);
-
-	}
-	
-	public void setProjNavView(ProjectNavigatorView projNavView) {
-		this.projNavView = projNavView;
-	}
-	
-	public void setSprint(Sprint sprint) {
-		this.sprint = sprint;
-	}
-	
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
