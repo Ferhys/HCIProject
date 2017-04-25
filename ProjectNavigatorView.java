@@ -1,6 +1,5 @@
 package projectNav;
 
-
 import java.util.ArrayList;
 
 import com.vaadin.navigator.Navigator;
@@ -148,3 +147,4 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	
 }
+

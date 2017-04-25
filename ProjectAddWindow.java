@@ -2,6 +2,8 @@ package projectNav;
 
 import java.time.LocalDate;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Notification;
@@ -10,11 +12,10 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import model.Project;
-import scrumProject.project_CAT_ATTACK.User;
 
 public class ProjectAddWindow extends Window {
 
-	Project p;
+	//Project p;
 	final TextField projectName;
 	final TextField description;
 	final DateField startDate;
@@ -26,15 +27,10 @@ public class ProjectAddWindow extends Window {
 		startDate = new DateField();
 		startDate.setValue(LocalDate.now());
 		description = new TextField("Project Description: ");
-		description.setHeight("20px");
 		
-		p = new Project();
 		Button enter = new Button("Add Project");
+		
 		enter.addClickListener(e-> {
-			p.setName(projectName.getValue());
-			p.setStartDate(startDate.getValue());
-			p.setDescription(description.getValue());
-			
 			close();
 		});
 		
@@ -43,14 +39,26 @@ public class ProjectAddWindow extends Window {
 	}
 	
 	public Project getProject() {
+		Project p = new Project();
+		
+		Binder<Project> binder = new Binder<>();
+		binder.bind(projectName, Project::getName, Project::setName);
+		binder.bind(startDate, Project::getStartDate, Project::setStartDate);
+		binder.bind(description, Project::getDescription, Project::setDescription);
+		try {
+			binder.writeBean(p);
+		}
+		catch (ValidationException e) {
+			Notification.show("ERROR OR SOMETHING");
+		}
+		
 		return p;
 	}
 	
-	public void reset() {
-		p.setName(null);
+	public void reset() { 
 		projectName.setValue("");
 		description.setValue("");
 		startDate.setValue(LocalDate.now());
 	}
-	
+
 }

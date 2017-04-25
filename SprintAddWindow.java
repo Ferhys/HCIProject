@@ -1,10 +1,15 @@
 package projectNav;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -13,7 +18,6 @@ import model.Sprint;
 
 public class SprintAddWindow extends Window{
 	
-	Sprint s; 
 	final TextField sprintName;
 	final TextField description;
 	final DateField startDate;
@@ -35,14 +39,9 @@ public class SprintAddWindow extends Window{
 		combo = new ComboBox<String>("Parent Project: ");
 		combo.setItems(projectNames);
 		
-		s = new Sprint();
 		Button enter = new Button("Add Sprint");
 		
 		enter.addClickListener(e-> {
-			s.setName(sprintName.getValue());
-			s.setStartDate(startDate.getValue());
-			s.setEndDate(endDate.getValue());
-			s.setDescription(description.getValue());
 			index = projectNames.indexOf(combo.getValue());
 			close();
 		});
@@ -52,6 +51,21 @@ public class SprintAddWindow extends Window{
 	}
 	
 	public Sprint getSprint(){
+		Sprint s = new Sprint();
+		
+		Binder<Sprint> binder = new Binder<>();
+		binder.bind(sprintName, Sprint::getName, Sprint::setName);
+		binder.bind(description, Sprint::getDescription, Sprint::setDescription);
+		binder.bind(startDate, Sprint::getStartDate, Sprint::setStartDate);
+		binder.bind(endDate, Sprint::getEndDate, Sprint::setEndDate);
+		
+		try {
+			binder.writeBean(s);
+		}
+		catch (ValidationException e) {
+			Notification.show("ERROR WRITING SPRINT");
+		}
+		
 		return s;
 	}
 	
@@ -60,11 +74,9 @@ public class SprintAddWindow extends Window{
 	}
 	
 	public void reset() {
-		s.setName(null);
 		sprintName.setValue("");
 		description.setValue("");
-		startDate.setValue(LocalDate.now());
-		
+		startDate.setValue(LocalDate.now());	
 	}
 
 }

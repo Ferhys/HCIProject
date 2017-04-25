@@ -36,7 +36,7 @@ public class CAT_ATTACK_MAIN extends UI {
     	//set up navigator and views
     	final Navigator navigator = new Navigator(this, this);
     	final KanbanView kanbanView = new KanbanView(navigator);
-    	final ProjectNavigatorView projNavView = new ProjectNavigatorView(navigator, kanbanView);
+    	final ProjectNavigatorView projNavView = new ProjectNavigatorView(navigator, kanbanView, user1);
     	kanbanView.setProjNavView(projNavView);
     	final LoginView loginView = new LoginView(navigator, projNavView.VIEW_NAME, userList);
     	

@@ -1,18 +1,20 @@
-package scrumProject.project_CAT_ATTACK;
+package kanban;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class AddStory {
 	
-	static Window newStory(GridLayout GL) {
-	//Add a new story to the label. 
 	
+	static Window newStory(GridLayout GL) {
+		//Add a new story to the label. 
+     //	Story st = new Story();
      	Panel panel = new Panel();
      	panel.addClickListener(e->{
      		//If you click on the story, should cause the storie's tasks to show. 
@@ -58,6 +60,11 @@ public class AddStory {
         sW.center();
         
         // Open it in the UI
-       	return sW;	
+       	return sW;
+
+    	
+		
 	}
+	
+	
 }

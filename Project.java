@@ -1,3 +1,6 @@
+package model;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,7 +11,7 @@ public class Project {
 	//TODO: add User class
 	//public ArrayList<User> userList;
 	private int status;
-	private Date startDate;
+	private LocalDate startDate;
 	
 	public Project() {
 		
@@ -50,12 +53,19 @@ public class Project {
 		sprintList.remove(sprint);
 	}
 	
-	public void setStartDate(Date date) {
-		this.startDate = date;
+	public void setStartDate(LocalDate localDate) {
+		this.startDate = localDate;
 	}
 	
-		public LocalDate getStartDate(LocalDate localDate) {
+	public LocalDate getStartDate(){
 		return startDate;
 	}
 	
+	public ArrayList<Sprint> getSprintList(){
+		return sprintList;
+	}
+	
+	public Sprint getSprint(int index){
+		return sprintList.get(index);
+	}
 }

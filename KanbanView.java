@@ -9,6 +9,9 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
+
+import model.Sprint;
+
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -20,6 +23,7 @@ public class KanbanView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "kanbanView";
 	private ProjectNavigatorView projNavView; 
+	private Sprint sprint;
 	
 	public KanbanView(Navigator navigator) {
 	
@@ -54,7 +58,6 @@ public class KanbanView extends VerticalLayout implements View {
         final Button logOut = new Button("Log Out");
         logOut.setHeight("45px");
         
-        
         //stuff for second horizontal layout 
         
         final Label project = new Label("PROJECT NAME ");
@@ -80,6 +83,8 @@ public class KanbanView extends VerticalLayout implements View {
             // Put some components in it
             subContent.addComponent(new Label("Burndown Chart"));
 
+            //TODO make burndown chart here
+            
             // Center it in the browser window
             subWindow.center();
 
@@ -102,8 +107,11 @@ public class KanbanView extends VerticalLayout implements View {
         final Button plusBtn = new Button("+");
         plusBtn.setHeight("25px");
         plusBtn.addClickListener(e -> {
-        	//Window sW = AddStory.newStory(gl1);
-        	//getUI().addWindow(sW);
+        	Window sW = AddStory.newStory(gl1);
+        	//AddStoryWindow -> returns story object
+        	//pass story object -> AddStorySticky
+        	//sticky gets added to UI
+        	getUI().addWindow(sW);
         });
         
         column1.setWidth("300px");
@@ -138,6 +146,10 @@ public class KanbanView extends VerticalLayout implements View {
 	
 	public void setProjNavView(ProjectNavigatorView projNavView) {
 		this.projNavView = projNavView;
+	}
+	
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
 	}
 	
 	@Override
