@@ -3,6 +3,7 @@ package kanban;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -28,6 +29,7 @@ public class KanbanView extends VerticalLayout implements View {
 	private Project project;
 	private Navigator nav;
 	private static final int STORY_COLUMN = 1;
+	private static final int TASK_COLUMN = 2;
 	
     private Label sprintName;
     private Label projectName;
@@ -116,7 +118,7 @@ public class KanbanView extends VerticalLayout implements View {
         
         //TODO: fix AddStory
         final Button plusBtn = new Button("+");
-        AddStory storyWindow = new AddStory();
+        StoryAddWindow storyWindow = new StoryAddWindow();
         plusBtn.setHeight("25px");
         plusBtn.addClickListener(e -> {
         	storyWindow.center();
