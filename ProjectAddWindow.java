@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
@@ -57,6 +58,9 @@ public class ProjectAddWindow extends Window {
 		
 		mainVL.addComponents(projectName, startDate, description, enter, nameStatus);
 		setContent(mainVL);
+		setWidth(projectName.getWidth() * 1.3 + "px");
+		setHeight(Page.getCurrent().getBrowserWindowHeight() * 0.5 + "px");
+
 	}
 	
 	public Project getProject() {
