@@ -3,6 +3,7 @@ package kanban;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -28,6 +29,7 @@ public class KanbanView extends VerticalLayout implements View {
 	private Project project;
 	private Navigator nav;
 	private static final int STORY_COLUMN = 1;
+	private static final int TASK_COLUMN = 2;
 	
     private Label sprintName;
     private Label projectName;
@@ -116,7 +118,7 @@ public class KanbanView extends VerticalLayout implements View {
         
         //TODO: fix AddStory
         final Button plusBtn = new Button("+");
-        AddStory storyWindow = new AddStory();
+        StoryAddWindow storyWindow = new StoryAddWindow();
         plusBtn.setHeight("25px");
         plusBtn.addClickListener(e -> {
         	storyWindow.center();
@@ -126,13 +128,18 @@ public class KanbanView extends VerticalLayout implements View {
         	//sticky gets added to UI
         });
         
-        storyWindow.addCloseListener(e -> {
+          storyWindow.addCloseListener(e -> {
         	if(storyWindow.getStory().getName() != ""){
         		
         		sprint.addStory(storyWindow.getStory());
         		int index = sprint.getStoryIndex(storyWindow.getStory().getName());
-        		System.out.println(index);
-        		
+        		VerticalLayout dummyLayout = new VerticalLayout();
+        		StoryPanel sticky = new StoryPanel(storyWindow.getStory());
+        		gl1.addComponent(sticky, STORY_COLUMN, index+1);
+        		gl1.addComponent(dummyLayout, TASK_COLUMN, index+1);
+        		//gl1.replaceComponent(gl1.getComponent(STORY_COLUMN, index+1), sticky);
+        		gl1.setComponentAlignment(sticky, Alignment.TOP_CENTER);
+        		storyWindow.reset();
         		
         		
         	}
