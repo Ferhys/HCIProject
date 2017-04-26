@@ -65,7 +65,6 @@ public class LoginView extends VerticalLayout implements View {
 						//find password
 						if (userList.get(i).getPassword().equals(logMeIn.getPassword())){
 							//ENTER!!
-							Notification.show("YOU MAY ENTER");
 							navigator.navigateTo(nextView);
 						}
 						else {
@@ -82,7 +81,7 @@ public class LoginView extends VerticalLayout implements View {
 			}
 		});
 		
-		addComponents(welcomeLabel, userField, userStatus, pwField, enter);
+		addComponents(welcomeLabel, userField, pwField, enter, userStatus);
 	}
 	
 	@Override

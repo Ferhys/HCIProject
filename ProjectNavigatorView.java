@@ -119,8 +119,8 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		h2.setMargin(false);
 		h2.setSpacing(false);
 		
-		int width = Page.getCurrent().getBrowserWindowWidth();
-		String sizeStr = (((width - 60) / 2) - (int) addProject.getWidth()) + "px";
+		double width = Page.getCurrent().getBrowserWindowWidth() * 0.42;
+		String sizeStr = ((width) - (int) addProject.getWidth()) + "px";
 		pProject.setWidth(sizeStr);
 		pSprint.setWidth(sizeStr);
 
