@@ -54,8 +54,8 @@ public class Sprint {
 		return endDate;
 	}
 	
-	public void setEndDate(LocalDate localDate) {
-		this.endDate = localDate;
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public void addStory(Story story) {
@@ -68,6 +68,20 @@ public class Sprint {
 	
 	public Story getStory(int i) {
 		return storyList.get(i);
+	}
+	
+	public int getStoryIndex(String name){
+		for(int i = 0; i < storyList.size(); i++){
+			if(name == storyList.get(i).getName()){
+				return i;
+			}
+			
+		}
+		return -1;
+	}
+	
+	public ArrayList<Story> getStoryList(){
+		return storyList;
 	}
 	
 }
