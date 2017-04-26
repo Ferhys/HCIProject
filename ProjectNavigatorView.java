@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -16,6 +17,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 import kanban.KanbanView;
 import model.Project;
@@ -47,15 +49,13 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		});
 
 		//remember, gridlayout is supposed to be in xy coordinates
-		final GridLayout gl = new GridLayout(3,10);
+		final GridLayout gl = new GridLayout(2,5);
 		
 		final HorizontalLayout h1 = new HorizontalLayout();
 		final HorizontalLayout h2 = new HorizontalLayout();
-		final VerticalLayout h3 = new VerticalLayout();
 		
 		final Panel pProject = new Panel("PROJECTS");
 		final Panel pSprint = new Panel("SPRINTS");
-		final Panel pTask = new Panel("STORIES");
 		
 		final Button addProject = new Button("+");
 		final Button addSprint = new Button("+");
@@ -71,7 +71,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		});
 		
 		projectWindow.addCloseListener(e -> {
-			if (projectWindow.getProject().getName() != "") {
+			if (projectWindow.complete == true) {
 				user.addProject(projectWindow.getProject());
 				//now, add panel for Project and future sprints in a VerticalLayout
 				ProjectPanel pl = new ProjectPanel(user.getLastProject());
@@ -82,7 +82,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				gl.addComponent(pl, PROJECT_COLUMN, user.getProjectList().size());
 				gl.addComponent(dummyLayout, SPRINT_COLUMN, user.getProjectList().size());
 				gl.setComponentAlignment(pl, Alignment.TOP_CENTER);
-				
+				gl.insertRow(gl.getRows());
 				addSprint.setEnabled(true);
 			}	
 		});
@@ -103,7 +103,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				user.getProject(index).addSprint(sprintWindow.getSprint());;
 				
 				//now, add sprint panel
-				SprintPanel sp = new SprintPanel(user.getProject(index));
+				SprintPanel sp = new SprintPanel(user.getProject(index), navigator, kanbanView);
 
 				gl.replaceComponent(gl.getComponent(SPRINT_COLUMN, index+1), sp);
 				gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
@@ -111,24 +111,20 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			}
 		});
 		
-		
 		h1.addComponents(addProject, pProject);
 		h2.addComponents(addSprint, pSprint);
-		h3.addComponent(pTask);
 
 		h1.setMargin(false);
 		h1.setSpacing(false);
 		h2.setMargin(false);
 		h2.setSpacing(false);
-		h3.setMargin(false);
 		
-		String sizeStr = (400 - (int) addProject.getWidth()) + "px";
+		int width = Page.getCurrent().getBrowserWindowWidth();
+		String sizeStr = (((width - 60) / 2) - (int) addProject.getWidth()) + "px";
 		pProject.setWidth(sizeStr);
 		pSprint.setWidth(sizeStr);
-		h3.setWidth("400px");
 
-		gl.addComponents(h1, h2, h3);
-		//gl.setMargin(false);
+		gl.addComponents(h1, h2);
 		gl.setSpacing(true);
 	
 		addComponents(label, next, gl);
@@ -147,4 +143,3 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	
 }
-
