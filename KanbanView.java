@@ -10,6 +10,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 
+import model.Project;
 import model.Sprint;
 
 import com.vaadin.ui.Label;
@@ -24,11 +25,13 @@ public class KanbanView extends VerticalLayout implements View {
 	public static final String VIEW_NAME = "kanbanView";
 	private ProjectNavigatorView projNavView; 
 	private Sprint sprint;
+	private Project project;
 	private Navigator nav;
+	private static final int STORY_COLUMN = 1;
 	
 	public KanbanView(Navigator navigator) {
 		this.nav = navigator;
-		
+		project = new Project();
 		sprint = new Sprint();
 	}
 	
@@ -40,12 +43,16 @@ public class KanbanView extends VerticalLayout implements View {
 		this.sprint = sprint;
 	}
 	
+	public void setProject(Project project){
+		this.project = project;
+	}
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
 		this.removeAllComponents();
 
-		Label label = new Label("SPRINT IS: " + sprint.getName());
+		//Label label = new Label("SPRINT IS: " + sprint.getName());
 		Button back = new Button("Back to Project Navigator");
 		back.addClickListener(new ClickListener() {
 			@Override
@@ -53,7 +60,7 @@ public class KanbanView extends VerticalLayout implements View {
 				nav.navigateTo(projNavView.VIEW_NAME);
 			}
 		});
-		addComponents(label, back);
+		addComponents(back);
 		
         final VerticalLayout mainVL = new VerticalLayout();
         final HorizontalLayout hl1 = new HorizontalLayout();
@@ -78,13 +85,14 @@ public class KanbanView extends VerticalLayout implements View {
         
         //stuff for second horizontal layout 
         
-        final Label project = new Label("PROJECT NAME ");
-        project.addStyleName(ValoTheme.LABEL_H3);
+        final Label projectName = new Label(project.getName());
+        projectName.addStyleName(ValoTheme.LABEL_H3);
+        
         
         final Label arrow = new Label(" > ");
         arrow.addStyleName(ValoTheme.LABEL_H3);
         
-        final Label sprintName = new Label("SPRINT NAME");
+        final Label sprintName = new Label(sprint.getName());
         sprintName.addStyleName(ValoTheme.LABEL_H3);
         sprintName.setWidth("725px");
         
@@ -123,13 +131,26 @@ public class KanbanView extends VerticalLayout implements View {
         
         //TODO: fix AddStory
         final Button plusBtn = new Button("+");
+        AddStory storyWindow = new AddStory();
         plusBtn.setHeight("25px");
         plusBtn.addClickListener(e -> {
-        	Window sW = AddStory.newStory(gl1);
+        	storyWindow.center();
+        	getUI().addWindow(storyWindow);
         	//AddStoryWindow -> returns story object
         	//pass story object -> AddStorySticky
         	//sticky gets added to UI
-        	getUI().addWindow(sW);
+        });
+        
+        storyWindow.addCloseListener(e -> {
+        	if(storyWindow.getStory().getName() != ""){
+        		
+        		sprint.addStory(storyWindow.getStory());
+        		int index = sprint.getStoryIndex(storyWindow.getStory().getName());
+        		System.out.println(index);
+        		
+        		
+        		
+        	}
         });
         
         column1.setWidth("300px");
@@ -154,7 +175,7 @@ public class KanbanView extends VerticalLayout implements View {
         gl1.addComponent(column4);
         
         hl1.addComponents(appName, user, acc, logOut);
-        hl2.addComponents(project, arrow, sprintName, bDButton);
+        hl2.addComponents(projectName, arrow, sprintName, bDButton);
         hl3.addComponent(gl1);     
         
         mainVL.addComponents(hl1, hl2, hl3);
