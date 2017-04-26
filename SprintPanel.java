@@ -24,7 +24,7 @@ public class SprintPanel extends VerticalLayout {
 			
 			Panel panel = new Panel();
 			HorizontalLayout hl = new HorizontalLayout();
-			Label name = new Label("Sprint " + i + ": " + sprint.getName());
+			Label name = new Label(sprint.getName());
 			name.setStyleName(ValoTheme.LABEL_BOLD);
 			Label startDate = new Label("Start date: " + sprint.getStartDate().toString());
 			//	Label endDate =   new Label("End date:   " + sprint.getEndDate().toString());
@@ -38,6 +38,7 @@ public class SprintPanel extends VerticalLayout {
 			panel.addStyleName(ValoTheme.PANEL_WELL);
 			addComponent(panel);
 			
+			panel.setDescription("Click for Task Board View");
 			panel.addClickListener(e -> {
 				nextView.setSprint(sprint);
 				nav.navigateTo(nextView.VIEW_NAME);
