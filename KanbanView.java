@@ -29,29 +29,14 @@ public class KanbanView extends VerticalLayout implements View {
 	private Navigator nav;
 	private static final int STORY_COLUMN = 1;
 	
+    private Label sprintName;
+    private Label projectName;
+    
 	public KanbanView(Navigator navigator) {
 		this.nav = navigator;
 		project = new Project();
 		sprint = new Sprint();
-	}
-	
-	public void setProjNavView(ProjectNavigatorView projNavView) {
-		this.projNavView = projNavView;
-	}
-	
-	public void setSprint(Sprint sprint) {
-		this.sprint = sprint;
-	}
-	
-	public void setProject(Project project){
-		this.project = project;
-	}
-	
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		this.removeAllComponents();
-
+		
 		//Label label = new Label("SPRINT IS: " + sprint.getName());
 		Button back = new Button("Back to Project Navigator");
 		back.addClickListener(new ClickListener() {
@@ -85,14 +70,14 @@ public class KanbanView extends VerticalLayout implements View {
         
         //stuff for second horizontal layout 
         
-        final Label projectName = new Label(project.getName());
+        projectName = new Label("");
         projectName.addStyleName(ValoTheme.LABEL_H3);
         
         
         final Label arrow = new Label(" > ");
         arrow.addStyleName(ValoTheme.LABEL_H3);
         
-        final Label sprintName = new Label(sprint.getName());
+        sprintName = new Label("");
         sprintName.addStyleName(ValoTheme.LABEL_H3);
         sprintName.setWidth("725px");
         
@@ -180,6 +165,26 @@ public class KanbanView extends VerticalLayout implements View {
         
         mainVL.addComponents(hl1, hl2, hl3);
         addComponent(mainVL);
+	}
+	
+	public void setProjNavView(ProjectNavigatorView projNavView) {
+		this.projNavView = projNavView;
+	}
+	
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
+	}
+	
+	public void setProject(Project project){
+		this.project = project;
+	}
+	
+	@Override
+	public void enter(ViewChangeEvent event) {
+
+        sprintName.setValue(sprint.getName());
+        projectName.setValue(project.getName());
+ 
 	}
 
 }
