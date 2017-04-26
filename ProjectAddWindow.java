@@ -6,6 +6,7 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -19,6 +20,8 @@ public class ProjectAddWindow extends Window {
 	final TextField projectName;
 	final TextField description;
 	final DateField startDate;
+	final Label nameStatus;
+	public boolean complete;
 	
 	public ProjectAddWindow() {
 		VerticalLayout mainVL = new VerticalLayout();
@@ -27,26 +30,45 @@ public class ProjectAddWindow extends Window {
 		startDate = new DateField();
 		startDate.setValue(LocalDate.now());
 		description = new TextField("Project Description: ");
+		nameStatus = new Label();
+		complete = false;
 		
 		Button enter = new Button("Add Project");
 		
 		enter.addClickListener(e-> {
-			close();
+			Binder<Project> binder = new Binder<>();
+			
+			binder.forField(projectName).withValidator(
+					projectName -> projectName.length() >= 1, "project name can't be blank")
+					.withValidationStatusHandler(status -> {
+						nameStatus.setValue(status.getMessage().orElse(""));
+						nameStatus.setVisible(status.isError());
+					});
+			
+			if (projectName.getValue().length() < 1) {
+				Notification.show("Please include project name");
+			}
+			else {
+				complete = true;
+				close();
+			}
+
 		});
 		
-		mainVL.addComponents(projectName, startDate, description, enter);
+		mainVL.addComponents(projectName, startDate, description, enter, nameStatus);
 		setContent(mainVL);
 	}
 	
 	public Project getProject() {
 		Project p = new Project();
-		
+
 		Binder<Project> binder = new Binder<>();
+		
 		binder.bind(projectName, Project::getName, Project::setName);
 		binder.bind(startDate, Project::getStartDate, Project::setStartDate);
 		binder.bind(description, Project::getDescription, Project::setDescription);
 		try {
-			binder.writeBean(p);
+				binder.writeBean(p);
 		}
 		catch (ValidationException e) {
 			Notification.show("ERROR OR SOMETHING");
@@ -59,6 +81,7 @@ public class ProjectAddWindow extends Window {
 		projectName.setValue("");
 		description.setValue("");
 		startDate.setValue(LocalDate.now());
+		complete = false;
 	}
 
 }
