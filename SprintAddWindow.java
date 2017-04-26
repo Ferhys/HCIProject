@@ -1,11 +1,11 @@
 package projectNav;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
@@ -24,10 +24,12 @@ public class SprintAddWindow extends Window{
 	final DateField endDate;
 	final ComboBox<String> combo;
 	final ArrayList<String> projectNames;
+	public boolean complete;
 	int index;
 	
 	public SprintAddWindow(ArrayList<String> projectNames) {
 		this.projectNames = projectNames;
+		complete = false;
 		
 		VerticalLayout mainVL = new VerticalLayout();
 		
@@ -42,9 +44,27 @@ public class SprintAddWindow extends Window{
 		Button enter = new Button("Add Sprint");
 		
 		enter.addClickListener(e-> {
-			index = projectNames.indexOf(combo.getValue());
-			close();
+			if (sprintName.getValue().length() < 1 ){
+				Notification.show("Please include sprint name");
+			}
+			else if (endDate.getValue() == null) {
+				Notification.show("Please set end date");
+			}
+			else if (endDate.getValue().isBefore(startDate.getValue())) {
+				Notification.show("Please choose an end date that is later than the start date.");
+			}
+			else if (combo.getValue() == null) {
+				Notification.show("Please choose Project");
+			}
+			else {
+				index = projectNames.indexOf(combo.getValue());
+				complete = true;
+				close();
+			}
 		});
+		
+		setHeight(Page.getCurrent().getBrowserWindowHeight() * 0.6 + "px");
+		setWidth(sprintName.getWidth() *1.2 + "px");
 		
 		mainVL.addComponents(sprintName, startDate, endDate, combo, description, enter);
 		setContent(mainVL);
@@ -76,7 +96,10 @@ public class SprintAddWindow extends Window{
 	public void reset() {
 		sprintName.setValue("");
 		description.setValue("");
-		startDate.setValue(LocalDate.now());	
+		startDate.setValue(LocalDate.now());
+		endDate.setValue(LocalDate.now());
+		combo.setValue(projectNames.get(projectNames.size()-1));
+		complete = false;
 	}
 
 }
