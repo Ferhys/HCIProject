@@ -29,15 +29,42 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 	private static final int PROJECT_COLUMN = 0;
 	private static final int SPRINT_COLUMN = 1;
 	private final Navigator navigator;
-	
+
 	private final User user;
+
+  //TODO: project list is project NAME list
+	private ArrayList<String> projectList;
+
+	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User u) {
+		this.navigator = navigator;
+		this.user = u;
+		this.projectList = new ArrayList<String>();
+
+		// Stuff going in the header 
+		final Label appNameHeader = new Label("CATattack");
+		appNameHeader.setStyleName(ValoTheme.LABEL_H2);
+
+		final Label userHeader = new Label(user.getName());
+		userHeader.setWidth("900px");
+		userHeader.addStyleName("v-align-right");
+		userHeader.addStyleName(ValoTheme.LABEL_H2);
+
+		final Button acc = new Button("Account");
+		acc.setHeight("45px");
+
+		final Button logOut = new Button("Log Out");
+		logOut.setHeight("45px");
+
+
+  /*
 	private ArrayList<String> projectNameList;
 	
 	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User u) {
 		this.navigator = navigator;
 		this.user = u;
 		this.projectNameList = new ArrayList<String>();
-		
+		*/
+
 		Label label = new Label("This is the Project Navigator.");
 		Button next = new Button("Go to Kanban Board");
 		next.addClickListener(new ClickListener() {
@@ -48,17 +75,18 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		});
 
 		//remember, gridlayout is supposed to be in xy coordinates
-		final GridLayout gl = new GridLayout(2,5);
-		
-		final HorizontalLayout h1 = new HorizontalLayout();
-		final HorizontalLayout h2 = new HorizontalLayout();
-		
-		final Panel pProject = new Panel("PROJECTS");
-		final Panel pSprint = new Panel("SPRINTS");
-		
-		final Button addProject = new Button("+");
-		final Button addSprint = new Button("+");
-		
+		final GridLayout gl 			= new GridLayout(2,5);
+
+		final HorizontalLayout header 	= new HorizontalLayout();
+		final HorizontalLayout h1 		= new HorizontalLayout();
+		final HorizontalLayout h2 		= new HorizontalLayout();
+
+		final Panel pProject 			= new Panel("PROJECTS");
+		final Panel pSprint 			= new Panel("SPRINTS");
+
+		final Button addProject 		= new Button("+");
+		final Button addSprint 			= new Button("+");
+
 		/**
 		 * add a project
 		 */
@@ -68,7 +96,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			projectWindow.center();
 			getUI().addWindow(projectWindow);
 		});
-		
+
 		projectWindow.addCloseListener(e -> {
 			if (projectWindow.complete == true) {
 				user.addProject(projectWindow.getProject());
@@ -77,7 +105,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				VerticalLayout dummyLayout = new VerticalLayout();
 				projectNameList.add(user.getLastProject().getName());
 				projectWindow.reset();
-				
+
 				gl.addComponent(pl, PROJECT_COLUMN, user.getProjectList().size());
 				gl.addComponent(dummyLayout, SPRINT_COLUMN, user.getProjectList().size());
 				gl.setComponentAlignment(pl, Alignment.TOP_CENTER);
@@ -86,7 +114,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				addSprint.setDescription("add a sprint to a project");
 			}	
 		});
-		
+
 		/**
 		 * add sprints to project
 		 */
@@ -98,12 +126,12 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			sprintWindow.center();
 			getUI().addWindow(sprintWindow);
 		});
-		
+
 		sprintWindow.addCloseListener(e -> {
 			if(sprintWindow.complete == true) {
 				int index = sprintWindow.returnProjectIndex();
 				user.getProject(index).addSprint(sprintWindow.getSprint());;
-				
+
 				//now, add sprint panel
 				SprintPanel sp = new SprintPanel(user.getProject(index), navigator, kanbanView);
 
@@ -112,7 +140,9 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				sprintWindow.reset();
 			}
 		});
-		
+
+		header.addComponents(appNameHeader, userHeader, acc, logOut);
+
 		h1.addComponents(addProject, pProject);
 		h2.addComponents(addSprint, pSprint);
 
@@ -120,7 +150,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		h1.setSpacing(false);
 		h2.setMargin(false);
 		h2.setSpacing(false);
-		
+
 		double width = Page.getCurrent().getBrowserWindowWidth() * 0.42;
 		String sizeStr = ((width) - (int) addProject.getWidth()) + "px";
 		pProject.setWidth(sizeStr);
@@ -128,20 +158,20 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 
 		gl.addComponents(h1, h2);
 		gl.setSpacing(true);
-	
-		addComponents(label, next, gl);
+
+		addComponents(header, label, next, gl);
 	}
-	
-	
+
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 
 
 	}
-	
+
 	public void authenticate() {
 		navigator.navigateTo("loginView");
 	}
 
-	
+
 }

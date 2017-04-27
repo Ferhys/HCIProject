@@ -41,7 +41,7 @@ public class KanbanView extends VerticalLayout implements View {
 		project = new Project();
 		sprint = new Sprint();
 		
-		/* Take this out plz
+		/*Take this out plz
 		//Label label = new Label("SPRINT IS: " + sprint.getName());
 		Button back = new Button("Back to Project Navigator");
 		back.addClickListener(new ClickListener() {
@@ -50,8 +50,13 @@ public class KanbanView extends VerticalLayout implements View {
 				nav.navigateTo(projNavView.VIEW_NAME);
 			}
 		});
+
+//TODO: Figure this out
+		//addComponents(back);
+
 		addComponents(back);
 		*/
+
 		
 		//format the grid.
         final VerticalLayout mainVL = new VerticalLayout();
@@ -136,6 +141,38 @@ public class KanbanView extends VerticalLayout implements View {
 //        final Label header3 = new Label("DOING");
 //        final Label header4 = new Label("DONE");
         
+
+//        //TODO: fix AddStory
+//        final Button plusBtn = new Button("+");
+//        StoryAddWindow storyWindow = new StoryAddWindow();
+//        plusBtn.setHeight("25px");
+//        plusBtn.addClickListener(e -> {
+//        	storyWindow.center();
+//        	getUI().addWindow(storyWindow);
+//        	//AddStoryWindow -> returns story object
+//        	//pass story object -> AddStorySticky
+//        	//sticky gets added to UI
+//        });
+//        
+//          storyWindow.addCloseListener(e -> {
+//        	if(storyWindow.getStory().getName() != ""){
+//        		
+//        		sprint.addStory(storyWindow.getStory());
+//        		int index = sprint.getStoryIndex(storyWindow.getStory().getName());
+//        		VerticalLayout dummyLayout = new VerticalLayout();
+//        		StoryPanel sticky = new StoryPanel(storyWindow.getStory());
+//        		gl1.addComponent(sticky, STORY_COLUMN, index+1);
+//        		gl1.addComponent(dummyLayout, TASK_COLUMN, index+1);
+//        		//gl1.replaceComponent(gl1.getComponent(STORY_COLUMN, index+1), sticky);
+//        		gl1.setComponentAlignment(sticky, Alignment.TOP_CENTER);
+//        		storyWindow.reset();
+//        		
+//        		
+//        	}
+//        });
+
+  
+  
         //TODO: fix AddStory
         final Button plusBtn = new Button("+");
         AddStory storyWindow = new AddStory();
@@ -160,6 +197,8 @@ public class KanbanView extends VerticalLayout implements View {
         	}
         });
         
+
+        
         column1.setWidth("300px");
         column2.setWidth("300px");
         column3.setWidth("300px");
@@ -175,7 +214,7 @@ public class KanbanView extends VerticalLayout implements View {
         column3.setStyleName("v-align-center");
         column4.setStyleName("v-align-center");
         
-        gl1.addComponent(plusBtn);
+        //gl1.addComponent(plusBtn);
         gl1.addComponent(column1);
         gl1.addComponent(column2);
         gl1.addComponent(column3);
@@ -184,10 +223,15 @@ public class KanbanView extends VerticalLayout implements View {
 //        hl1.addComponents(appName, user, acc, logOut);
         hl2.addComponents(projectNamePanel, arrow, sprintName);
    //     hl3.addComponent(gl1);     
-        
+
+  //TODO: look at this
+        mainVL.addComponents(back, hl2, hl3);
+        addComponents(hl1, mainVL);
+
   //      mainVL.addComponents(hl1, hl2, hl3);
-        mainVL.addComponents(hl2, gl1);
-        addComponent(mainVL);
+  //      mainVL.addComponents(hl2, gl1);
+  //      addComponent(mainVL);
+
 	}
 	
 	public void setProjNavView(ProjectNavigatorView projNavView) {
