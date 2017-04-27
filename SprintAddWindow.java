@@ -23,12 +23,12 @@ public class SprintAddWindow extends Window{
 	final DateField startDate;
 	final DateField endDate;
 	final ComboBox<String> combo;
-	final ArrayList<String> projectNames;
+	ArrayList<String> projectNames;
 	public boolean complete;
 	int index;
 	
-	public SprintAddWindow(ArrayList<String> projectNames) {
-		this.projectNames = projectNames;
+	public SprintAddWindow(ArrayList<String> projectsNames) {
+		this.projectNames = projectsNames;
 		complete = false;
 		
 		VerticalLayout mainVL = new VerticalLayout();
@@ -40,7 +40,7 @@ public class SprintAddWindow extends Window{
 		startDate.setValue(LocalDate.now());
 		combo = new ComboBox<String>("Parent Project: ");
 		combo.setItems(projectNames);
-		
+
 		Button enter = new Button("Add Sprint");
 		
 		enter.addClickListener(e-> {
@@ -63,7 +63,7 @@ public class SprintAddWindow extends Window{
 			}
 		});
 		
-		setHeight(Page.getCurrent().getBrowserWindowHeight() * 0.6 + "px");
+		setHeight(sprintName.getHeight() * 6.5 + "px");
 		setWidth(sprintName.getWidth() *1.2 + "px");
 		
 		mainVL.addComponents(sprintName, startDate, endDate, combo, description, enter);
@@ -102,4 +102,8 @@ public class SprintAddWindow extends Window{
 		complete = false;
 	}
 
+	public void updateProjects(ArrayList<String> projectsNames ) {
+		this.projectNames = projectsNames;
+		combo.setValue(projectNames.get(projectNames.size()-1));
+	}
 }

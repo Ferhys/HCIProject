@@ -31,13 +31,12 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 	private final Navigator navigator;
 	
 	private final User user;
-	private ArrayList<String> projectList;
-
+	private ArrayList<String> projectNameList;
 	
 	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User u) {
 		this.navigator = navigator;
 		this.user = u;
-		this.projectList = new ArrayList<String>();
+		this.projectNameList = new ArrayList<String>();
 		
 		Label label = new Label("This is the Project Navigator.");
 		Button next = new Button("Go to Kanban Board");
@@ -76,7 +75,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				//now, add panel for Project and future sprints in a VerticalLayout
 				ProjectPanel pl = new ProjectPanel(user.getLastProject());
 				VerticalLayout dummyLayout = new VerticalLayout();
-				projectList.add(user.getLastProject().getName());
+				projectNameList.add(user.getLastProject().getName());
 				projectWindow.reset();
 				
 				gl.addComponent(pl, PROJECT_COLUMN, user.getProjectList().size());
@@ -84,21 +83,24 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				gl.setComponentAlignment(pl, Alignment.TOP_CENTER);
 				gl.insertRow(gl.getRows());
 				addSprint.setEnabled(true);
+				addSprint.setDescription("add a sprint to a project");
 			}	
 		});
 		
 		/**
 		 * add sprints to project
 		 */
-		SprintAddWindow sprintWindow = new SprintAddWindow(projectList);
+		SprintAddWindow sprintWindow = new SprintAddWindow(projectNameList);
 		addSprint.setEnabled(false);
+		addSprint.setDescription("Start a Project to add sprints");
 		addSprint.addClickListener(e -> {
+			sprintWindow.updateProjects(projectNameList);
 			sprintWindow.center();
 			getUI().addWindow(sprintWindow);
 		});
 		
 		sprintWindow.addCloseListener(e -> {
-			if(sprintWindow.getSprint().getName() != ""){
+			if(sprintWindow.complete == true) {
 				int index = sprintWindow.returnProjectIndex();
 				user.getProject(index).addSprint(sprintWindow.getSprint());;
 				
