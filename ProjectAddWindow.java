@@ -21,30 +21,20 @@ public class ProjectAddWindow extends Window {
 	final TextField projectName;
 	final TextField description;
 	final DateField startDate;
-	final Label nameStatus;
 	public boolean complete;
 	
 	public ProjectAddWindow() {
 		VerticalLayout mainVL = new VerticalLayout();
 		projectName = new TextField("Project Name: ");
 		projectName.focus();
-		startDate = new DateField();
+		startDate = new DateField("Start Date: ");
 		startDate.setValue(LocalDate.now());
 		description = new TextField("Project Description: ");
-		nameStatus = new Label();
 		complete = false;
 		
 		Button enter = new Button("Add Project");
 		
 		enter.addClickListener(e-> {
-			Binder<Project> binder = new Binder<>();
-			
-			binder.forField(projectName).withValidator(
-					projectName -> projectName.length() >= 1, "project name can't be blank")
-					.withValidationStatusHandler(status -> {
-						nameStatus.setValue(status.getMessage().orElse(""));
-						nameStatus.setVisible(status.isError());
-					});
 			
 			if (projectName.getValue().length() < 1) {
 				Notification.show("Please include project name");
@@ -56,10 +46,10 @@ public class ProjectAddWindow extends Window {
 
 		});
 		
-		mainVL.addComponents(projectName, startDate, description, enter, nameStatus);
+		mainVL.addComponents(projectName, startDate, description, enter);
 		setContent(mainVL);
 		setWidth(projectName.getWidth() * 1.3 + "px");
-		setHeight(Page.getCurrent().getBrowserWindowHeight() * 0.5 + "px");
+		setHeight(projectName.getHeight() * 4.5 + "px");
 
 	}
 	
