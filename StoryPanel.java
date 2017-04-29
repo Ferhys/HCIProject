@@ -11,39 +11,25 @@ import com.vaadin.ui.themes.ValoTheme;
 import model.Sprint;
 import model.Story;
 
-public class AddStorySticky extends VerticalLayout {
+public class StoryPanel extends Panel {
 
-	final ArrayList<Story> storyList;
 	
-	public AddStorySticky(Sprint sprint) {
-		this.storyList = sprint.getStoryList();
-		
-		for (Story story:storyList) {
+	
+	public StoryPanel(Story story) {
 			
-			Panel panel = new Panel();
+		
+	
 			HorizontalLayout hl = new HorizontalLayout();
 			Label name = new Label(story.getName());
 			name.setStyleName(ValoTheme.LABEL_BOLD);
-			Label startDate = new Label("Start date: " + sprint.getStartDate().toString());
+			Label startDate = new Label("Start date: " + story.getStartDate().toString());
 			//	Label endDate =   new Label("End date:   " + sprint.getEndDate().toString());
 			startDate.setStyleName(ValoTheme.LABEL_LIGHT);
 			
 			hl.addComponents(name, startDate);
 			hl.setSpacing(true);
-			panel.setContent(hl);
-			
-			
-			panel.addStyleName(ValoTheme.PANEL_WELL);
-			addComponent(panel);
-			
-		}
+			setContent(hl);
 
-		setSpacing(true);
-		setMargin(false);
-
-
-
+			this.addStyleName(ValoTheme.PANEL_WELL);
+		
 	}
-
-
-}
