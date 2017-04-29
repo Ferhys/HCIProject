@@ -8,16 +8,20 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 import scrumProject.project_CAT_ATTACK.User;
 
-public class LoginView extends VerticalLayout implements View {
+public class LoginView extends HorizontalLayout implements View {
 
 	protected static final String VIEW_NAME = "loginView";
 	
@@ -26,6 +30,7 @@ public class LoginView extends VerticalLayout implements View {
 	private final Navigator navigator;
 	private final String nextView;
 	private final ArrayList<User> userList;
+	private final VerticalLayout vl;
 	
 	public LoginView(Navigator navigator, String nextView, ArrayList<User> userList) {
 		userField = new TextField("User: ");
@@ -33,17 +38,26 @@ public class LoginView extends VerticalLayout implements View {
 		this.navigator = navigator;
 		this.nextView = nextView;
 		this.userList = userList;
-		
+		this.vl = new VerticalLayout();
 		initialize();
 	}
 
 	private void initialize() {
-		final Label welcomeLabel = new Label("THIS IS LOGIN SCREEN");
+		final Label welcomeLabel = new Label("Welcome to the ");
+		welcomeLabel.setStyleName(ValoTheme.LABEL_LIGHT);
+		final Label CATlbl = new Label("Collective Action Timeline");
+		CATlbl.addStyleName(ValoTheme.LABEL_H1);
+		CATlbl.addStyleName(ValoTheme.LABEL_COLORED);
+		final Label catAttackLbl = new Label("CATattack");
+		catAttackLbl.setStyleName(ValoTheme.LABEL_H2);
 		
 		User logMeIn = new User();
 		Label userStatus = new Label();
 		Binder<User> binder = new Binder<User>();
 		Button enter = new Button ("Log In");
+		
+		Label catIcon = new Label();
+		catIcon.setIcon(new ThemeResource("catmelonhead.jpg"));
 		
 		//Bind and validate user name
 		binder.forField(userField).withValidator(
@@ -81,7 +95,14 @@ public class LoginView extends VerticalLayout implements View {
 			}
 		});
 		
-		addComponents(welcomeLabel, userField, pwField, enter, userStatus);
+		HorizontalLayout btnLayout = new HorizontalLayout();
+		btnLayout.addComponent(enter);
+		btnLayout.setWidth("200px");
+		btnLayout.setComponentAlignment(enter, Alignment.BOTTOM_RIGHT);
+		vl.addComponents(welcomeLabel, CATlbl, catAttackLbl, userField, pwField, btnLayout, userStatus);
+		this.setSpacing(true);
+		this.setMargin(true);
+		addComponents(catIcon, vl);
 	}
 	
 	@Override
