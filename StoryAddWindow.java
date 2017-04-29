@@ -18,28 +18,47 @@ import com.vaadin.ui.Window;
 import model.Sprint;
 import model.Story;
 
-public class AddStory extends Window {
+public class StoryAddWindow extends Window {
 	
 	final TextField storyName;
 	final TextField description;
 	final DateField startDate;
 	final DateField endDate;
+	public boolean complete;
 	
-	public AddStory() {
+	public StoryAddWindow() {
 		//Add a new story to the label. 
     	VerticalLayout main = new VerticalLayout();
     	HorizontalLayout btnContent = new HorizontalLayout();
     	main.setStyleName("v-align-center");
     	btnContent.setStyleName("v-align-center");
         storyName = new TextField("Story Name");
+        storyName.focus();
         description = new TextField("Story description: ");
         startDate = new DateField("Start Date");
+        startDate.setValue(LocalDate.now());
         endDate = new DateField("End Date");
+        endDate.setValue(LocalDate.now());
         storyName.focus();
+        complete = false;
         Button addBtn = new Button("Add");
     
         addBtn.addClickListener(e -> {
-        	close();
+        
+    			if (storyName.getValue().length() < 1 ){
+    				Notification.show("Please include story name");
+    			}
+    			else if (endDate.getValue() == null) {
+    				Notification.show("Please set end date");
+    			}
+    			else if (endDate.getValue().isBefore(startDate.getValue())) {
+    				Notification.show("Please choose an end date that is later than the start date.");
+    			}
+    			else{
+    				complete = true;
+    				close();
+    			}
+    	
         });
         
         Button cancelBtn = new Button("Cancel");
@@ -53,9 +72,6 @@ public class AddStory extends Window {
         main.addComponents(new Label("New Story"), storyName, startDate,endDate, btnContent);
         setContent(main);
 
-        // Center it in the browser window
- 
-		
 	}
 	
 	public Story getStory(){
@@ -78,9 +94,11 @@ public class AddStory extends Window {
 	
 	public void reset(){
 		storyName.setValue("");
+		storyName.focus();
 		description.setValue("");
 		startDate.setValue(LocalDate.now());
 		endDate.setValue(LocalDate.now());
+		complete = false;
 	}
 	
 	
