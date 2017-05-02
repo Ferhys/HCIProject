@@ -50,7 +50,7 @@ public class ProjectAddWindow extends Window {
 		setContent(mainVL);
 		setWidth(projectName.getWidth() * 1.3 + "px");
 		setHeight(projectName.getHeight() * 4.5 + "px");
-
+		this.setModal(true);
 	}
 	
 	public Project getProject() {
