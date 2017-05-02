@@ -157,7 +157,6 @@ public class KanbanView extends VerticalLayout implements View {
         		gl1.setComponentAlignment(sticky, Alignment.TOP_RIGHT);
         		
         		plsTaskButton.setEnabled(true);
-=======
         		
         		
         	}
