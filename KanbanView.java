@@ -65,8 +65,16 @@ public class KanbanView extends VerticalLayout implements View {
 		//format the grid.
 		final HorizontalLayout header		= new HorizontalLayout(); //first header
 		final HorizontalLayout subheader 	= new HorizontalLayout(); //second header
-		gl1 								= new GridLayout(10,10); //grid layout
+		gl1 								= new GridLayout(4,10); //grid layout
+		
 
+		float num = (float) .25;
+		gl1.setColumnExpandRatio(STORY_COLUMN, num);
+		num = (float) .75;
+		gl1.setColumnExpandRatio(TASK_COLUMN, num);
+		gl1.setSpacing(true);
+		gl1.setStyleName("spacingex");
+		
 		/**
 		 * Main Header
 		 */
@@ -75,7 +83,6 @@ public class KanbanView extends VerticalLayout implements View {
 		appName.addStyleName(ValoTheme.LABEL_COLORED);
 
 		final Label userLabel = new Label(user.getName());
-		userLabel.setWidth("900px");
 		userLabel.addStyleName("v-align-right");
 		userLabel.addStyleName(ValoTheme.LABEL_H2);
 
@@ -83,17 +90,34 @@ public class KanbanView extends VerticalLayout implements View {
 		acc.setHeight("45px");
 		final Button logOut = new Button("Log Out");
 		logOut.setHeight("45px");
+		logOut.addClickListener(e -> {
+			navigator.navigateTo("loginView");
+		}); 
+
+		HorizontalLayout leftHeader = new HorizontalLayout();
+		HorizontalLayout rightHeader = new HorizontalLayout();
+		leftHeader.addComponent(appName);
+		rightHeader.addComponents(userLabel,acc,logOut);
+
+		rightHeader.setComponentAlignment(userLabel, Alignment.TOP_RIGHT);
+		rightHeader.setComponentAlignment(acc, Alignment.TOP_RIGHT);
+		rightHeader.setComponentAlignment(logOut, Alignment.TOP_RIGHT);
 		
-		header.addComponents(appName, userLabel, acc, logOut);
+		header.addComponents(leftHeader, rightHeader);
+		header.setComponentAlignment(leftHeader, Alignment.TOP_LEFT);
+		header.setComponentAlignment(rightHeader, Alignment.TOP_RIGHT);
+		header.setWidth("100%");
 
 		/**
 		 * Sub Header
 		 */
 		Label taskBoard = new Label("Task Board: ");
 		taskBoard.addStyleName(ValoTheme.LABEL_H3);
-		
+
+		Panel projectNamePanel = new Panel();
 		projectName = new Label("");
 		projectName.addStyleName(ValoTheme.LABEL_H3);
+
 				
 		Button backButton = new Button();
 		backButton.setIcon(new ThemeResource("back_button.png"));
@@ -112,7 +136,7 @@ public class KanbanView extends VerticalLayout implements View {
 		sprintName.addStyleName(ValoTheme.LABEL_H3);
 		sprintName.setWidth("725px");
 		
-		subheader.addComponents(backButton, taskBoard, projectName, arrow, sprintName);  
+		subheader.addComponents(backButton, taskBoard, arrow, sprintName);  
 		subheader.setComponentAlignment(taskBoard, Alignment.MIDDLE_LEFT);
 		subheader.setComponentAlignment(backButton, Alignment.MIDDLE_LEFT);
 		subheader.setComponentAlignment(arrow, Alignment.MIDDLE_LEFT);
@@ -121,7 +145,6 @@ public class KanbanView extends VerticalLayout implements View {
 		/**
 		 * add a story
 		 */
-
 		plusBtn = new Button("+");
 		plsTaskButton = new Button("+");
 		
@@ -145,8 +168,8 @@ public class KanbanView extends VerticalLayout implements View {
 				VerticalLayout dummyLayout = new VerticalLayout();
 
 				StoryPanel sticky = new StoryPanel(storyWindow.getStory());
-				String width = ((widthSt)+ "px");
-				sticky.setWidth(width);
+//				String width = ((widthSt)+ "px");
+//				sticky.setWidth(width);
 
 				storyNameList.add(storyWindow.getStory().getName());
 
@@ -175,11 +198,13 @@ public class KanbanView extends VerticalLayout implements View {
 				int index = taskWindow.returnIndex();
 				user.getProject(pIndex).getSprint(sIndex).getStory(index).addTask(taskWindow.getTask());
 
-				TaskGrid tg = new TaskGrid(user.getProject(pIndex).getSprint(sIndex).getStory(index), this, widthTk);
+				TaskGrid tg = new TaskGrid(user.getProject(pIndex).getSprint(sIndex).getStory(index), this);
 				gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, index+1), tg);
+				
 				taskWindow.reset();
 			}
 		});
+		
 
 		addComponents(header, subheader, gl1);
 	}
@@ -231,30 +256,35 @@ public class KanbanView extends VerticalLayout implements View {
 		String sizeStr = ((widthSt) - (int) plusBtn.getWidth()) + "px";
 		String sizeStrTk = ((widthTk) - (int) plusBtn.getWidth()) + "px";
 
-		column1.setWidth(sizeStr);
-		column2.setWidth(sizeStr);
-		column3.setWidth(sizeStrTk);
-		column4.setWidth(sizeStrTk);
-
-		column1.setStyleName("v-align-center");
-		column2.setStyleName("v-align-center");
-		column3.setStyleName("v-align-center");
-		column4.setStyleName("v-align-center");
-
 		HorizontalLayout hlStory = new HorizontalLayout();
 		hlStory.addComponents(plusBtn, column1);
 		hlStory.setMargin(false);
 		hlStory.setSpacing(false);
+		hlStory.setExpandRatio(plusBtn, 0);
+		hlStory.setExpandRatio(column1, 1);
+		
 		gl1.addComponent(hlStory);
+		hlStory.setSizeFull();
+		float num = (float) .25;
+		gl1.setColumnExpandRatio(0, num);
+		
 
 		HorizontalLayout hlTask = new HorizontalLayout();
 		hlTask.addComponents(plsTaskButton, column2, column3, column4);
 		hlTask.setMargin(false);
 		hlTask.setSpacing(false);
-
+		hlTask.setSizeFull();
+		num = (float) .333;
+		hlTask.setExpandRatio(plsTaskButton, 0);
+		hlTask.setExpandRatio(column2, num);
+		hlTask.setExpandRatio(column3, num);
+		hlTask.setExpandRatio(column4, num);
+		
 		gl1.addComponents(hlTask);
 		gl1.setSizeFull();
 		gl1.setSpacing(true);
+		num = (float) .75;
+		gl1.setColumnExpandRatio(1, num);
 		
 		//set stories
 		int index = 1;
@@ -262,8 +292,8 @@ public class KanbanView extends VerticalLayout implements View {
 			VerticalLayout dummyLayout = new VerticalLayout();
 
 			StoryPanel sticky = new StoryPanel(story);
-			String width = ((widthSt)+ "px");
-			sticky.setWidth(width);
+//			String width = ((widthSt)+ "px");
+			sticky.setWidth("100%");
 
 			storyNameList.add(story.getName());
 
@@ -272,7 +302,7 @@ public class KanbanView extends VerticalLayout implements View {
 			gl1.setComponentAlignment(sticky, Alignment.TOP_RIGHT);	
 			
 			//set tasks
-			TaskGrid tg = new TaskGrid(story, this, widthTk);
+			TaskGrid tg = new TaskGrid(story, this);
 			gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, index), tg);
 			index++;
 		}
@@ -282,7 +312,7 @@ public class KanbanView extends VerticalLayout implements View {
 	public void updateTask(Story story) {
 		int row = user.getProject(pIndex).getSprint(sIndex).getStoryIndex(story.getName());
 		user.getProject(pIndex).getSprint(sIndex).updateStory(row, story);
-		TaskGrid newGrid = new TaskGrid(story, this, widthTk);
+		TaskGrid newGrid = new TaskGrid(story, this);
 		gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, row+1), newGrid);
 
 	}
