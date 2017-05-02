@@ -77,4 +77,12 @@ public class Story {
 		
 	}
 	
+	public void updateTask(Task task) {
+		for (Task task1:taskList) {
+			if (task1.getName().equals(task.getName())) {
+				task1.setStatus(task.getStatus());
+			}
+		}
+	}
+	
 }
