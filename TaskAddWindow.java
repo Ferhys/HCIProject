@@ -76,6 +76,7 @@ public class TaskAddWindow extends Window{
 		
 		mainVL.addComponents(taskName, plannedHours, completedHours, combo, statCombo, enter);
 		setContent(mainVL);
+		this.setModal(true);
 	}
 	
 	public Task getTask(){
