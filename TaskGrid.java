@@ -19,28 +19,25 @@ public class TaskGrid extends GridLayout{
 	private final int DOING_COLUMN = 1;
 	private final int DONE_COLUMN = 2;
 	
-	public TaskGrid(Story story, KanbanView parentView, double width) {
+	public TaskGrid(Story story, KanbanView parentView) {
+		
+		float num = (float) .3333;
 		
 		int todo = 0;
 		int doing = 0;
-		int done = 0;
-		String panelWidth = width + "px";	
+		int done = 0;	
 		
-		Label dummy1 = new Label("");
-		dummy1.setWidth(panelWidth);
-		Label dummy2 = new Label("");
-		dummy2.setWidth(panelWidth);
-		Label dummy3 = new Label("");
-		dummy3.setWidth(panelWidth);
-				
-		this.setColumns(3);
-		this.setRows(2);
+		this.setColumns(4);
 		this.setSizeFull();
 		this.setMargin(false);
 		this.setSpacing(false);
-		this.addComponent(dummy1, 0, 1);
-		this.addComponent(dummy2, 1, 1);
-		this.addComponent(dummy3, 2, 1);
+		
+		
+		
+		this.setColumnExpandRatio(0, 0);
+		this.setColumnExpandRatio(TODO_COLUMN, num);
+		this.setColumnExpandRatio(DOING_COLUMN, num);
+		this.setColumnExpandRatio(DONE_COLUMN, num);
 		
 		for (Task task:story.getTaskList()) {
 			Panel panel = new Panel();
@@ -61,7 +58,7 @@ public class TaskGrid extends GridLayout{
 				story.updateTask(task);
 				parentView.updateTask(story);
 			});
-			combo.addStyleName(ValoTheme.COMBOBOX_TINY);
+			combo.addStyleName(ValoTheme.COMBOBOX_SMALL);
 			update.addStyleName(ValoTheme.BUTTON_TINY);
 			
 			hl1.addComponents(name, leftHours);
@@ -70,7 +67,7 @@ public class TaskGrid extends GridLayout{
 			vl.addComponents(hl1, hl2);
 			vl.setSpacing(false);
 			panel.setContent(vl);
-			panel.setWidth(hl2.getWidth() + "px");
+//			panel.setWidth(hl2.getWidth() + "px");
 			
 			if (task.getStatus().equalsIgnoreCase("to do")) {
 				this.addComponent(panel, TODO_COLUMN, todo);
