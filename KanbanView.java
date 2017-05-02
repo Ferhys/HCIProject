@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+
 import com.vaadin.server.Page;
+
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -37,25 +39,23 @@ public class KanbanView extends VerticalLayout implements View {
 	private Sprint sprint;
 	private Project project;
 	private User user;
-	
 
 	private static final int STORY_COLUMN = 0;
 	private static final int TO_DO_COLUMN = 2;
 	private static final int DOING_COLUMN = 3;
 	private static final int DONE_COLUMN = 4;
-	 
-	
 	
     private Label sprintName;
     private Label projectName;
     
     private ArrayList<String> storyNameList;
-    
+
 	public KanbanView(Navigator navigator, User u) {
 		this.nav = navigator;
 		this.user = u;
 		this.project = new Project();
 		this.sprint = new Sprint();
+
 		this.storyNameList = new ArrayList<String>();
 		double widthSt = Page.getCurrent().getBrowserWindowWidth()*0.234375;
 		double widthTk = Page.getCurrent().getBrowserWindowWidth()*0.20703125;
@@ -122,10 +122,11 @@ public class KanbanView extends VerticalLayout implements View {
 
         //Add a story
         final Button plusBtn = new Button("+");
+
         final Button plsTaskButton = new Button("+");
         StoryAddWindow storyWindow = new StoryAddWindow();
         plsTaskButton.setEnabled(false);
-        
+       
         plusBtn.addClickListener(e -> {
         	storyWindow.center();
         	getUI().addWindow(storyWindow);
@@ -140,6 +141,7 @@ public class KanbanView extends VerticalLayout implements View {
         		sprint.addStory(storyWindow.getStory());
         		int index = sprint.getStoryIndex(storyWindow.getStory().getName());
         		VerticalLayout dummyLayout = new VerticalLayout();
+
         		VerticalLayout dummyLayout2 = new VerticalLayout();
         		VerticalLayout dummyLayout3 = new VerticalLayout();
         		StoryPanel sticky = new StoryPanel(storyWindow.getStory());
@@ -155,6 +157,7 @@ public class KanbanView extends VerticalLayout implements View {
         		gl1.setComponentAlignment(sticky, Alignment.TOP_RIGHT);
         		
         		plsTaskButton.setEnabled(true);
+=======
         		
         		
         	}
@@ -211,6 +214,7 @@ public class KanbanView extends VerticalLayout implements View {
         column3.setWidth(sizeStrTk);
         column4.setWidth(sizeStrTk);
 
+
         column1.setStyleName("v-align-center");
        	column2.setStyleName("v-align-center");
         column3.setStyleName("v-align-center");
@@ -218,6 +222,7 @@ public class KanbanView extends VerticalLayout implements View {
         
         HorizontalLayout hlStory = new HorizontalLayout();
         hlStory.addComponents(plusBtn, column1);
+
         hlStory.setMargin(false);
         hlStory.setSpacing(false);
         gl1.addComponent(hlStory);
@@ -236,6 +241,8 @@ public class KanbanView extends VerticalLayout implements View {
         hl2.setMargin(false);
         hl2.setSpacing(false);
 
+        
+
         addComponents(hl1, hl2, gl1);
 	}
 	
@@ -253,6 +260,7 @@ public class KanbanView extends VerticalLayout implements View {
         sprintName.setValue(sprint.getName());
         projectName.setValue(project.getName());
 	}
+
 
 
 }
