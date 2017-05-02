@@ -44,6 +44,10 @@ public class Story {
 		return taskList.get(i);
 	}
 	
+	public ArrayList<Task> getTaskList(){
+		return taskList;
+	}
+	
 	public int getStatus() {
 		return status;
 	}
@@ -66,6 +70,11 @@ public class Story {
 	
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+	
+	public Task getLastTask(){
+		return taskList.get(taskList.size()-1);
+		
 	}
 	
 }

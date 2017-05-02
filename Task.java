@@ -5,7 +5,7 @@ public class Task {
 	public String name;
 	public double plannedHours;
 	public double completedHours;
-	public int status;
+	public String status;
 	
 	public Task() {
 		
@@ -28,6 +28,7 @@ public class Task {
 	}
 
 	public double getCompletedHours() {
+	
 		return completedHours;
 	}
 
@@ -35,11 +36,12 @@ public class Task {
 		this.completedHours = completedHours;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
+		
 		this.status = status;
 	}
 	
