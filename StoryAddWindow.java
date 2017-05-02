@@ -71,7 +71,7 @@ public class StoryAddWindow extends Window {
         btnContent.addComponents(addBtn, cancelBtn);
         main.addComponents(new Label("New Story"), storyName, startDate,endDate, btnContent);
         setContent(main);
-
+	this.setModal(true);
 	}
 	
 	public Story getStory(){
