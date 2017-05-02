@@ -70,6 +70,7 @@ public class SprintAddWindow extends Window{
 		
 		mainVL.addComponents(sprintName, startDate, endDate, combo, description, enter);
 		setContent(mainVL);
+		this.setModal(true);
 	}
 	
 	public Sprint getSprint(){
