@@ -1,6 +1,5 @@
-package projectNav;
+package kanban;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.data.converter.StringToDoubleConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -40,12 +38,14 @@ public class TaskAddWindow extends Window{
 		taskName.focus();
 		plannedHours = new TextField("Planned Hours: ");
 		completedHours = new TextField("Completed Hours: ");
+		plannedHours.setValue("0");
+		completedHours.setValue("0");
+		
 		statCombo = new ComboBox<String>("Status");
 		List<String> statList = new ArrayList<String>();
 		statList.add("TO DO");
 		statList.add("DOING");
 		statList.add("DONE");
-		
 		statCombo.setItems(statList);
 	
 		combo = new ComboBox<String>("Parent Story: ");
@@ -71,7 +71,7 @@ public class TaskAddWindow extends Window{
 			}
 		});
 		
-		setHeight(taskName.getHeight() * 6.5 + "px");
+		setHeight(taskName.getHeight() * 7.5 + "px");
 		setWidth(taskName.getWidth() *1.2 + "px");
 		
 		mainVL.addComponents(taskName, plannedHours, completedHours, combo, statCombo, enter);
@@ -79,6 +79,7 @@ public class TaskAddWindow extends Window{
 		this.setModal(true);
 	}
 	
+	//return the task
 	public Task getTask(){
 		Task t = new Task();
 		

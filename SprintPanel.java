@@ -3,18 +3,15 @@ package projectNav;
 import java.util.ArrayList;
 
 import com.vaadin.navigator.Navigator;
-import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import kanban.KanbanView;
-import model.Project;
 import model.Sprint;
 import scrumProject.project_CAT_ATTACK.User;
 
@@ -22,8 +19,8 @@ public class SprintPanel extends VerticalLayout {
 
 	final ArrayList<Sprint> sprintList;
 	
-	public SprintPanel(Project project, Navigator nav, KanbanView nextView, double size, ProjectNavigatorView parentView) {
-		this.sprintList = project.getSprintList();
+	public SprintPanel(User user, int pIndex, Navigator nav, KanbanView nextView, double size, ProjectNavigatorView parentView) {
+		this.sprintList = user.getProject(pIndex).getSprintList();
 		
 		for (Sprint sprint:sprintList) {
 			
@@ -44,7 +41,7 @@ public class SprintPanel extends VerticalLayout {
 			//edit and delete features
 			Button del = new Button("del");
 			del.addClickListener(e -> {
-				parentView.removeSprint(project, sprint);
+				parentView.removeSprint(user.getProject(pIndex), sprint);
 			});
 			
 			//description
@@ -68,10 +65,10 @@ public class SprintPanel extends VerticalLayout {
 			//click the panel to go to task board view
 			panel.setDescription("Click for Task Board View");
 			panel.addClickListener(e -> {
-				nextView.setData(project, sprint);
+				nextView.setData(user, pIndex, user.getProject(pIndex).getSprintList().indexOf(sprint));
 				nav.navigateTo(nextView.VIEW_NAME);
 			});
-		}
+		} //for (Sprint sprint::sprintList)
 
 		setSpacing(true);
 		setMargin(false);

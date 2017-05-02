@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Sprint {
 
@@ -54,8 +53,8 @@ public class Sprint {
 		return endDate;
 	}
 	
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public void setEndDate(LocalDate localDate) {
+		this.endDate = localDate;
 	}
 
 	public void addStory(Story story) {
@@ -79,8 +78,8 @@ public class Sprint {
 		}
 		return -1;
 	}
-	
-	public ArrayList<Story> getStoryList(){
+
+	public ArrayList<Story> getStoryList() {
 		return storyList;
 	}
 	
