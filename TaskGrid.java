@@ -26,10 +26,21 @@ public class TaskGrid extends GridLayout{
 		int done = 0;
 		String panelWidth = width + "px";	
 		
+		Label dummy1 = new Label("");
+		dummy1.setWidth(panelWidth);
+		Label dummy2 = new Label("");
+		dummy2.setWidth(panelWidth);
+		Label dummy3 = new Label("");
+		dummy3.setWidth(panelWidth);
+				
 		this.setColumns(3);
+		this.setRows(2);
 		this.setSizeFull();
 		this.setMargin(false);
 		this.setSpacing(false);
+		this.addComponent(dummy1, 0, 1);
+		this.addComponent(dummy2, 1, 1);
+		this.addComponent(dummy3, 2, 1);
 		
 		for (Task task:story.getTaskList()) {
 			Panel panel = new Panel();
@@ -50,7 +61,7 @@ public class TaskGrid extends GridLayout{
 				story.updateTask(task);
 				parentView.updateTask(story);
 			});
-			combo.addStyleName(ValoTheme.COMBOBOX_SMALL);
+			combo.addStyleName(ValoTheme.COMBOBOX_TINY);
 			update.addStyleName(ValoTheme.BUTTON_TINY);
 			
 			hl1.addComponents(name, leftHours);
