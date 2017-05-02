@@ -1,9 +1,7 @@
-package projectNav;
+package kanban;
 
 import java.util.ArrayList;
 
-import com.vaadin.navigator.Navigator;
-import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -13,12 +11,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import kanban.KanbanView;
-import model.Project;
-import model.Sprint;
 import model.Story;
 import model.Task;
-import scrumProject.project_CAT_ATTACK.User;
 
 public class TaskPanel extends VerticalLayout {
 
