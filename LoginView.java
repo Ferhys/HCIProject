@@ -31,6 +31,7 @@ public class LoginView extends HorizontalLayout implements View {
 	private final String nextView;
 	private final ArrayList<User> userList;
 	private final VerticalLayout vl;
+	private final HorizontalLayout hl;
 	
 	public LoginView(Navigator navigator, String nextView, ArrayList<User> userList) {
 		userField = new TextField("User: ");
@@ -39,6 +40,7 @@ public class LoginView extends HorizontalLayout implements View {
 		this.nextView = nextView;
 		this.userList = userList;
 		this.vl = new VerticalLayout();
+		this.hl = new HorizontalLayout();
 		initialize();
 	}
 
@@ -48,6 +50,7 @@ public class LoginView extends HorizontalLayout implements View {
 		final Label CATlbl = new Label("Collective Action Timeline");
 		CATlbl.addStyleName(ValoTheme.LABEL_H1);
 		CATlbl.addStyleName(ValoTheme.LABEL_COLORED);
+		CATlbl.setHeight((double)CATlbl.getHeight() * 0.5 + "px");
 		final Label catAttackLbl = new Label("CATattack");
 		catAttackLbl.setStyleName(ValoTheme.LABEL_H2);
 		
@@ -100,9 +103,12 @@ public class LoginView extends HorizontalLayout implements View {
 		btnLayout.setWidth("200px");
 		btnLayout.setComponentAlignment(enter, Alignment.BOTTOM_RIGHT);
 		vl.addComponents(welcomeLabel, CATlbl, catAttackLbl, userField, pwField, btnLayout, userStatus);
-		this.setSpacing(true);
+		vl.setMargin(false);
+		hl.setMargin(true);
+		hl.addComponents(catIcon, vl);
 		this.setMargin(true);
-		addComponents(catIcon, vl);
+		this.addComponents(hl);
+		this.setComponentAlignment(hl, Alignment.TOP_CENTER);
 	}
 	
 	@Override
