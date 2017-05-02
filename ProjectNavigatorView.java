@@ -13,6 +13,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 import kanban.KanbanView;
@@ -53,22 +54,40 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		/**
 		 *  Stuff going in the header 
 		 */
-		final Label appNameHeader = new Label("CATattack");
-		appNameHeader.addStyleName(ValoTheme.LABEL_COLORED);
-		appNameHeader.addStyleName(ValoTheme.LABEL_H2);
-		
-		final Label userHeader = new Label(user.getName());
-		userHeader.setWidth("900px");
-		userHeader.addStyleName("v-align-right");
-		userHeader.addStyleName(ValoTheme.LABEL_H2);
+		final Label appName = new Label("CATattack");
+		appName.addStyleName(ValoTheme.LABEL_H2);
+		appName.addStyleName(ValoTheme.LABEL_COLORED);
+
+		final Label userLabel = new Label(user.getName());
+		userLabel.addStyleName("v-align-right");
+		userLabel.addStyleName(ValoTheme.LABEL_H2);
 
 		final Button acc = new Button("Account");
 		acc.setHeight("45px");
-
+		acc.addClickListener(e -> {
+			Window accountSettings = new Window();
+		}); 
+		
+		
 		final Button logOut = new Button("Log Out");
 		logOut.setHeight("45px");
+		logOut.addClickListener(e -> {
+			navigator.navigateTo("loginView");
+		}); 
+
+		HorizontalLayout leftHeader = new HorizontalLayout();
+		HorizontalLayout rightHeader = new HorizontalLayout();
+		leftHeader.addComponent(appName);
+		rightHeader.addComponents(userLabel,acc,logOut);
+
+		rightHeader.setComponentAlignment(userLabel, Alignment.TOP_RIGHT);
+		rightHeader.setComponentAlignment(acc, Alignment.TOP_RIGHT);
+		rightHeader.setComponentAlignment(logOut, Alignment.TOP_RIGHT);
 		
-		header.addComponents(appNameHeader, userHeader, acc, logOut);
+		header.addComponents(leftHeader, rightHeader);
+		header.setComponentAlignment(leftHeader, Alignment.TOP_LEFT);
+		header.setComponentAlignment(rightHeader, Alignment.TOP_RIGHT);
+		header.setWidth("100%");
 		
 		/**
 		 *  subHeader - creates consistency between views
@@ -138,20 +157,34 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			}
 		});
 		
+		//pProject.setWidth("100%");
+		
 		h1.addComponents(addProject, pProject);
+		h1.setExpandRatio(addProject, 0);
+		h1.setExpandRatio(pProject, 1);
+		h1.setWidth("100%");
+		
 		h2.addComponents(addSprint, pSprint);
+		h2.setExpandRatio(addSprint, 0);
+		h2.setExpandRatio(pSprint, 1);
+		h2.setWidth("100%");
 
-		h1.setMargin(false);
-		h1.setSpacing(false);
-		h2.setMargin(false);
-		h2.setSpacing(false);
+//		h1.setMargin(false);
+//		h1.setSpacing(false);
+//		h2.setMargin(false);
+//		h2.setSpacing(false);
 
-		String sizeStr = ((width) - (int) addProject.getWidth()) + "px";
-		pProject.setWidth(sizeStr);
-		pSprint.setWidth(sizeStr);
-
+//		String sizeStr = ((width) - (int) addProject.getWidth()) + "px";
+//		pProject.setWidth(sizeStr);
+//		pSprint.setWidth(sizeStr);
+		
+		float num = (float) .5;
+		
 		gl.addComponents(h1, h2);
+		gl.setColumnExpandRatio(0, num);
+		gl.setColumnExpandRatio(1, num);
 		gl.setSpacing(true);
+		gl.setWidth("100%");
 
 		addComponents(header, subHeader, gl);
 	}
