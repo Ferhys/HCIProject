@@ -34,10 +34,12 @@ public class SprintAddWindow extends Window{
 		VerticalLayout mainVL = new VerticalLayout();
 		
 		sprintName = new TextField("Sprint Name: ");
+		sprintName.focus();
 		startDate = new DateField("Start Date: ");
 		endDate = new DateField("End Date: ");
 		description = new TextField("Sprint description: ");
 		startDate.setValue(LocalDate.now());
+		endDate.setValue(LocalDate.now());
 		combo = new ComboBox<String>("Parent Project: ");
 		combo.setItems(projectNames);
 
