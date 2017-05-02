@@ -16,12 +16,13 @@ import com.vaadin.ui.themes.ValoTheme;
 import kanban.KanbanView;
 import model.Project;
 import model.Sprint;
+import scrumProject.project_CAT_ATTACK.User;
 
 public class SprintPanel extends VerticalLayout {
 
 	final ArrayList<Sprint> sprintList;
 	
-	public SprintPanel(Project project, Navigator nav, KanbanView nextView) {
+	public SprintPanel(Project project, Navigator nav, KanbanView nextView, double size, ProjectNavigatorView parentView) {
 		this.sprintList = project.getSprintList();
 		
 		for (Sprint sprint:sprintList) {
@@ -30,11 +31,12 @@ public class SprintPanel extends VerticalLayout {
 			Panel panel = new Panel();
 			HorizontalLayout hl = new HorizontalLayout();
 			VerticalLayout vl = new VerticalLayout();
+			hl.setWidth(size + "px");
 			
 			//name and dates
 			Label name = new Label(sprint.getName());
 			name.setStyleName(ValoTheme.LABEL_BOLD);
-			Label startDate = new Label("Scheduled dates: " + sprint.getStartDate().toString());
+			Label startDate = new Label("Start date: " + sprint.getStartDate().toString());
 			Label endDate =   new Label("- " + sprint.getEndDate().toString());
 			startDate.setStyleName(ValoTheme.LABEL_LIGHT);
 			endDate.setStyleName(ValoTheme.LABEL_LIGHT);
@@ -42,22 +44,22 @@ public class SprintPanel extends VerticalLayout {
 			//edit and delete features
 			Button del = new Button("del");
 			del.addClickListener(e -> {
-				Notification.show("deleting srint.");
+				parentView.removeSprint(project, sprint);
 			});
 			
 			//description
 			Label description = new Label(sprint.getDescription());
 			description.setStyleName(ValoTheme.LABEL_SMALL);
-			description.setWidth((Page.getCurrent().getBrowserWindowWidth() - 100) / 2 + "px");
+			description.setWidth(size + "px");
 			
 			
 			//add to layout
-			hl.addComponents(name, startDate, endDate, del);
+			hl.addComponents(name, startDate, del);
 			hl.setComponentAlignment(del, Alignment.TOP_RIGHT);
 			vl.addComponents(hl, description);
 			vl.setSpacing(false);
 			
-			hl.setSpacing(true);
+			hl.setSpacing(false);
 			panel.setContent(vl);
 			
 			panel.addStyleName(ValoTheme.PANEL_WELL);
@@ -66,16 +68,13 @@ public class SprintPanel extends VerticalLayout {
 			//click the panel to go to task board view
 			panel.setDescription("Click for Task Board View");
 			panel.addClickListener(e -> {
-				nextView.setProject(project);
-				nextView.setSprint(sprint);
+				nextView.setData(project, sprint);
 				nav.navigateTo(nextView.VIEW_NAME);
 			});
 		}
 
 		setSpacing(true);
 		setMargin(false);
-
-
 
 	}
 
