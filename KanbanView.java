@@ -91,11 +91,9 @@ public class KanbanView extends VerticalLayout implements View {
 		 */
 		Label taskBoard = new Label("Task Board: ");
 		taskBoard.addStyleName(ValoTheme.LABEL_H3);
-
-		Panel projectNamePanel = new Panel();
+		
 		projectName = new Label("");
 		projectName.addStyleName(ValoTheme.LABEL_H3);
-
 				
 		Button backButton = new Button();
 		backButton.setIcon(new ThemeResource("back_button.png"));
@@ -114,7 +112,7 @@ public class KanbanView extends VerticalLayout implements View {
 		sprintName.addStyleName(ValoTheme.LABEL_H3);
 		sprintName.setWidth("725px");
 		
-		subheader.addComponents(backButton, taskBoard, arrow, sprintName);  
+		subheader.addComponents(backButton, taskBoard, projectName, arrow, sprintName);  
 		subheader.setComponentAlignment(taskBoard, Alignment.MIDDLE_LEFT);
 		subheader.setComponentAlignment(backButton, Alignment.MIDDLE_LEFT);
 		subheader.setComponentAlignment(arrow, Alignment.MIDDLE_LEFT);
