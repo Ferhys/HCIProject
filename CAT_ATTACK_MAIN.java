@@ -18,8 +18,6 @@ import projectNav.ProjectNavigatorView;
 @Theme("mytheme")
 public class CAT_ATTACK_MAIN extends UI {
 
-	public static final int TEST_INT = 5;
-	
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	
@@ -51,8 +49,5 @@ public class CAT_ATTACK_MAIN extends UI {
     public static class MyUIServlet extends VaadinServlet {
     }
 	
-    public void testMethod() {
-    	
-    }
-	
+
 }
