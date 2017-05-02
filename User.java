@@ -57,8 +57,11 @@ public class User {
 	}
 
 	public ArrayList<Project> getProjectList() {
-		// TODO Auto-generated method stub
 		return projectList;
+	}
+	
+	public int getProjectIndex(Project project) {
+		return projectList.indexOf(project);
 	}
 	
 }
