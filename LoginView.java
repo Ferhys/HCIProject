@@ -36,6 +36,8 @@ public class LoginView extends HorizontalLayout implements View {
 	public LoginView(Navigator navigator, String nextView, ArrayList<User> userList) {
 		userField = new TextField("User: ");
 		pwField = new PasswordField("Password: ");
+		userField.setValue("jdoe@email.com");
+		pwField.setValue("password");
 		this.navigator = navigator;
 		this.nextView = nextView;
 		this.userList = userList;
@@ -108,7 +110,10 @@ public class LoginView extends HorizontalLayout implements View {
 		hl.addComponents(catIcon, vl);
 		this.setMargin(true);
 		this.addComponents(hl);
+		this.setSizeFull();
 		this.setComponentAlignment(hl, Alignment.TOP_CENTER);
+		
+
 	}
 	
 	@Override
