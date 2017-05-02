@@ -48,6 +48,7 @@ public class KanbanView extends VerticalLayout implements View {
 
 	//keep track of story names
 	private ArrayList<String> storyNameList;
+	private double widthTk;
 
 	public KanbanView(Navigator navigator, User u) {
 		this.nav = navigator;
@@ -59,7 +60,7 @@ public class KanbanView extends VerticalLayout implements View {
 		
 		//width of current page
 		double widthSt = Page.getCurrent().getBrowserWindowWidth()*0.234375;
-		double widthTk = Page.getCurrent().getBrowserWindowWidth()*0.20703125;
+		widthTk = Page.getCurrent().getBrowserWindowWidth()*0.20703125;
 
 		//format the grid.
 		final HorizontalLayout header		= new HorizontalLayout(); //first header
@@ -92,7 +93,6 @@ public class KanbanView extends VerticalLayout implements View {
 		taskBoard.addStyleName(ValoTheme.LABEL_H3);
 
 		Panel projectNamePanel = new Panel();
-
 		projectName = new Label("");
 		projectName.addStyleName(ValoTheme.LABEL_H3);
 
@@ -171,7 +171,7 @@ public class KanbanView extends VerticalLayout implements View {
 				int index = taskWindow.returnIndex();
 				user.getProject(pIndex).getSprint(sIndex).getStory(index).addTask(taskWindow.getTask());
 
-				TaskGrid tg = new TaskGrid(user.getProject(pIndex).getSprint(sIndex).getStory(index), widthTk);
+				TaskGrid tg = new TaskGrid(user.getProject(pIndex).getSprint(sIndex).getStory(index), this, widthTk);
 				gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, index+1), tg);
 				taskWindow.reset();
 			}
@@ -209,7 +209,7 @@ public class KanbanView extends VerticalLayout implements View {
 		
 		//TODO TODO here is where the width is declared -- used in line 273
 		double widthSt = Page.getCurrent().getBrowserWindowWidth()*0.234375;
-		double widthTk = Page.getCurrent().getBrowserWindowWidth()*0.20703125;
+		widthTk = Page.getCurrent().getBrowserWindowWidth()*0.20703125;
 		
 		/**
 		 * Next: grid layout for stories and sprints
@@ -268,11 +268,19 @@ public class KanbanView extends VerticalLayout implements View {
 			gl1.setComponentAlignment(sticky, Alignment.TOP_RIGHT);	
 			
 			//set tasks
-			TaskGrid tg = new TaskGrid(story, widthTk);
+			TaskGrid tg = new TaskGrid(story, this, widthTk);
 			gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, index), tg);
 			index++;
 		}
 		
+	}
+	
+	public void updateTask(Story story) {
+		int row = user.getProject(pIndex).getSprint(sIndex).getStoryIndex(story.getName());
+		user.getProject(pIndex).getSprint(sIndex).updateStory(row, story);
+		TaskGrid newGrid = new TaskGrid(story, this, widthTk);
+		gl1.replaceComponent(gl1.getComponent(TASK_COLUMN, row+1), newGrid);
+
 	}
 
 
