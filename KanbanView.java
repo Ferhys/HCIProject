@@ -7,7 +7,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 import com.vaadin.server.Page;
-
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -96,15 +96,17 @@ public class KanbanView extends VerticalLayout implements View {
 		projectName = new Label("");
 		projectName.addStyleName(ValoTheme.LABEL_H3);
 
-		//take back to project navigator view
-		//TODO: Make this button not hideous. (it's currently a panel with a click listener.)
-		projectNamePanel.setContent(projectName);
-		projectNamePanel.addClickListener(e -> {
+				
+		Button backButton = new Button();
+		backButton.setIcon(new ThemeResource("back_button.png"));
+		backButton.setStyleName("backButton");
+		backButton.setHeight("60px");
+		backButton.setDescription("Click to return to Project Navigator");
+		backButton.addClickListener(e -> {
 			projNavView.updateUser(user);
-			nav.navigateTo(projNavView.VIEW_NAME);
-		});
-		projectNamePanel.setDescription("Click to return to Project Navigator");
-
+				nav.navigateTo(projNavView.VIEW_NAME);
+		}); 
+		
 		final Label arrow = new Label(" > ");
 		arrow.addStyleName(ValoTheme.LABEL_H3);
 
@@ -112,8 +114,12 @@ public class KanbanView extends VerticalLayout implements View {
 		sprintName.addStyleName(ValoTheme.LABEL_H3);
 		sprintName.setWidth("725px");
 		
-		subheader.addComponents(taskBoard, projectNamePanel, arrow, sprintName);  
-
+		subheader.addComponents(backButton, taskBoard, arrow, sprintName);  
+		subheader.setComponentAlignment(taskBoard, Alignment.MIDDLE_LEFT);
+		subheader.setComponentAlignment(backButton, Alignment.MIDDLE_LEFT);
+		subheader.setComponentAlignment(arrow, Alignment.MIDDLE_LEFT);
+		subheader.setComponentAlignment(sprintName, Alignment.MIDDLE_LEFT);
+		
 		/**
 		 * add a story
 		 */
