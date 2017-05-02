@@ -6,18 +6,16 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import model.Sprint;
 import model.Story;
 
+@SuppressWarnings("serial")
 public class StoryAddWindow extends Window {
 	
 	final TextField storyName;
@@ -39,6 +37,7 @@ public class StoryAddWindow extends Window {
         startDate.setValue(LocalDate.now());
         endDate = new DateField("End Date");
         endDate.setValue(LocalDate.now());
+        
         storyName.focus();
         complete = false;
         Button addBtn = new Button("Add");
@@ -69,9 +68,9 @@ public class StoryAddWindow extends Window {
         
         // Put some components in it
         btnContent.addComponents(addBtn, cancelBtn);
-        main.addComponents(new Label("New Story"), storyName, startDate,endDate, btnContent);
+        main.addComponents(new Label("New Story"), storyName, startDate,endDate, description, btnContent);
         setContent(main);
-	this.setModal(true);
+        this.setModal(true);
 	}
 	
 	public Story getStory(){

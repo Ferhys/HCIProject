@@ -17,11 +17,9 @@ import projectNav.ProjectNavigatorView;
 @SuppressWarnings("serial")
 @Theme("mytheme")
 public class CAT_ATTACK_MAIN extends UI {
-	
-	/**
-	 * goal: make main program show top containers; swaps out "C" container
-	 */
 
+	public static final int TEST_INT = 5;
+	
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	
@@ -35,7 +33,7 @@ public class CAT_ATTACK_MAIN extends UI {
     	
     	//set up navigator and views
     	final Navigator navigator = new Navigator(this, this);
-    	final KanbanView kanbanView = new KanbanView(navigator);
+    	final KanbanView kanbanView = new KanbanView(navigator, user1);
     	final ProjectNavigatorView projNavView = new ProjectNavigatorView(navigator, kanbanView, user1);
     	kanbanView.setProjNavView(projNavView);
     	final LoginView loginView = new LoginView(navigator, projNavView.VIEW_NAME, userList);
@@ -46,9 +44,15 @@ public class CAT_ATTACK_MAIN extends UI {
     	projNavView.authenticate();
         
     }
+    
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CAT_ATTACK_MAIN.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
+	
+    public void testMethod() {
+    	
+    }
+	
 }

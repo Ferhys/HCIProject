@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
@@ -37,9 +36,9 @@ public class SprintAddWindow extends Window{
 		sprintName.focus();
 		startDate = new DateField("Start Date: ");
 		endDate = new DateField("End Date: ");
+		endDate.setValue(LocalDate.now());
 		description = new TextField("Sprint description: ");
 		startDate.setValue(LocalDate.now());
-		endDate.setValue(LocalDate.now());
 		combo = new ComboBox<String>("Parent Project: ");
 		combo.setItems(projectNames);
 
@@ -70,7 +69,7 @@ public class SprintAddWindow extends Window{
 		
 		mainVL.addComponents(sprintName, startDate, endDate, combo, description, enter);
 		setContent(mainVL);
-		this.setModal(true);
+		setModal(true);
 	}
 	
 	public Sprint getSprint(){

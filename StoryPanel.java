@@ -27,7 +27,7 @@ public class StoryPanel extends Panel {
 		hl.addComponents(name, startDate);
 		vl.addComponents(hl, description);
 		hl.setSpacing(true);
-		setContent(hl);
+		setContent(vl);
 
 		this.addStyleName(ValoTheme.PANEL_WELL);
 
