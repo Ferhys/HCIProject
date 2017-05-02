@@ -83,4 +83,9 @@ public class Sprint {
 		return storyList;
 	}
 	
+	public void updateStory(int index, Story story){
+		storyList.add(index, story);
+		storyList.remove(index+1);
+	}
+	
 }
