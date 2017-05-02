@@ -16,39 +16,33 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import kanban.KanbanView;
-import model.Project;
-import model.Sprint;
 import scrumProject.project_CAT_ATTACK.User;
 
 public class ProjectNavigatorView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "projectNavigatorView";
 	
-	private static GridLayout gl;
 	private static final int PROJECT_COLUMN = 0;
 	private static final int SPRINT_COLUMN = 1;
-	final double width;
 
 	private final Navigator navigator;
-	private final KanbanView kanbanView;
 	final private User user;
 
 	private ArrayList<String> projectNameList;
 
-	public ProjectNavigatorView(Navigator navigator, KanbanView kv, User u) {
+	public ProjectNavigatorView(Navigator navigator, KanbanView kanbanView, User u) {
 		this.navigator = navigator;
-		this.kanbanView = kv;
 		this.user = u;
 		this.projectNameList = new ArrayList<String>();
 		
 		//view layout 
 		final HorizontalLayout header 		= new HorizontalLayout();
 		final HorizontalLayout subHeader	= new HorizontalLayout();
-		gl 									= new GridLayout(2,5);
+		final GridLayout gl 				= new GridLayout(2,5);
 		final HorizontalLayout h1 			= new HorizontalLayout();
 		final HorizontalLayout h2 			= new HorizontalLayout();
 		
-		width = Page.getCurrent().getBrowserWindowWidth() * 0.42;
+		double width = Page.getCurrent().getBrowserWindowWidth() * 0.42;
 
 		/**
 		 *  Stuff going in the header 
@@ -98,7 +92,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 			if (projectWindow.complete == true) {
 				user.addProject(projectWindow.getProject());
 				//now, add panel for Project and future sprints in a VerticalLayout
-				ProjectPanel pl = new ProjectPanel(user.getLastProject(), width, this);
+				ProjectPanel pl = new ProjectPanel(user.getLastProject(), width);
 				VerticalLayout dummyLayout = new VerticalLayout();
 				projectNameList.add(user.getLastProject().getName());
 				projectWindow.reset();
@@ -130,7 +124,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 				user.getProject(index).addSprint(sprintWindow.getSprint());;
 
 				//now, add sprint panel
-				SprintPanel sp = new SprintPanel(user.getProject(index), navigator, kanbanView, width, this);
+				SprintPanel sp = new SprintPanel(user.getProject(index), navigator, kanbanView, width);
 
 				gl.replaceComponent(gl.getComponent(SPRINT_COLUMN, index+1), sp);
 				gl.setComponentAlignment(sp, Alignment.TOP_CENTER);
@@ -145,7 +139,7 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 		h1.setSpacing(false);
 		h2.setMargin(false);
 		h2.setSpacing(false);
-
+		
 		String sizeStr = ((width) - (int) addProject.getWidth()) + "px";
 		pProject.setWidth(sizeStr);
 		pSprint.setWidth(sizeStr);
@@ -167,23 +161,8 @@ public class ProjectNavigatorView extends VerticalLayout implements View {
 	}
 	
 	//udpate the project from the kanban view
-	public void updateProject(Project project) {
-		
-	}
-	
-	//removes a project with delete button
-	public void removeProject(Project project) {
-		int index = user.getProjectIndex(project);
-		user.removeProject(project);
-		projectNameList.remove(index);
-		gl.removeRow(index + 1);
-	}
-	
-	public void removeSprint(Project project, Sprint sprint) {
-		int pindex = user.getProjectIndex(project);
-		user.getProject(pindex).deleteSprint(sprint);
-		SprintPanel sp = new SprintPanel(user.getProject(pindex), navigator, kanbanView, width, this);
-		gl.replaceComponent(gl.getComponent(SPRINT_COLUMN, pindex+1), sp);
+	public void updateProject() {
+
 	}
 
 
